@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Embergard</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --accent: #00d4aa;
+            --text: #e4e4ef;
+            --text-dim: #8888a0;
+            --border: #2a2a3a;
+            --radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        .updated {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            margin: 2rem 0 0.5rem;
+        }
+        p, li {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1rem;
+        }
+        a { color: var(--accent); }
+        .back {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: November 4, 2026</p>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>Embergard is an on-device security application. It does <strong>not</strong> collect, transmit, sell, or share your personal data. All processing happens locally on your device.</p>
+    </div>
+
+    <div class="card">
+        <h2>Data We Process</h2>
+        <p>Embergard processes the following data <strong>locally on your device</strong>:</p>
+        <ul>
+            <li><strong>Network traffic</strong> — inspected via VPN for PII exfiltration detection. Packet contents are not stored.</li>
+            <li><strong>SMS messages</strong> — scanned for phishing URLs. Content processed in-memory only, not persisted.</li>
+            <li><strong>Notifications</strong> — analyzed for phishing indicators. Processed in-memory, not stored.</li>
+            <li><strong>Installed apps</strong> — enumerated and checked against malware signature databases. Only app package names and permission lists are analyzed.</li>
+            <li><strong>File hashes</strong> — computed on-device for malware scanning. File contents are not uploaded.</li>
+            <li><strong>Device integrity</strong> — Play Integrity API and root detection results, stored encrypted on-device.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>What We Don't Do</h2>
+        <ul>
+            <li>No cloud servers — all processing is on-device</li>
+            <li>No analytics or crash reporting SDKs</li>
+            <li>No advertising or ad SDKs</li>
+            <li>No selling or sharing data with third parties</li>
+            <li>No tracking or profiling</li>
+            <li>No PII retention — user hardline policy</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Permissions</h2>
+        <p>Embergard requests the following restricted permissions for its security features:</p>
+        <ul>
+            <li><strong>SMS (READ_SMS, RECEIVE_SMS)</strong> — SMS phishing detection</li>
+            <li><strong>Contacts (READ_CONTACTS)</strong> — Data exfiltration detection</li>
+            <li><strong>Call log (READ_CALL_LOG)</strong> — Stalkerware detection</li>
+            <li><strong>Notifications (BIND_NOTIFICATION_LISTENER_SERVICE)</strong> — Notification phishing detection</li>
+            <li><strong>All packages (QUERY_ALL_PACKAGES)</strong> — Full-device malware scanning</li>
+            <li><strong>Storage (MANAGE_EXTERNAL_STORAGE)</strong> — Malware file scanning</li>
+            <li><strong>VPN (BIND_VPN_SERVICE)</strong> — Deep packet inspection</li>
+        </ul>
+        <p>Each permission is essential for core security functionality. No permission is used for advertising, analytics, or data sales.</p>
+    </div>
+
+    <div class="card">
+        <h2>Data Encryption</h2>
+        <p>All stored data is encrypted with AES-256-GCM using hardware-backed keys from the Android Keystore. Keys are periodically rotated. Network traffic uses TLS with certificate pinning.</p>
+    </div>
+
+    <div class="card">
+        <h2>Data Deletion</h2>
+        <p>To delete all Embergard data: uninstall the app, or use the in-app "Wipe all data" option in Settings. This removes all encrypted data immediately.</p>
+    </div>
+
+    <div class="card">
+        <h2>Contact</h2>
+        <p>For privacy questions: <a href="mailto:privacy@embergard.nl">privacy@embergard.nl</a></p>
+    </div>
+
+    <a href="/" class="back">← Back to Embergard</a>
+</div>
+</body>
+</html>
