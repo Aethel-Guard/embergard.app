@@ -182,9 +182,17 @@
     .controls button.secondary { background: transparent; color: var(--bone); border: 1px solid var(--bone-30); }
     .controls button.secondary:hover { border-color: var(--bronze-bright); color: var(--bronze-bright); background: transparent; }
 
-    .caption { max-width: 480px; margin-top: 2rem; text-align: center; }
+    .caption { max-width: 680px; margin-top: 2rem; text-align: center; }
     .caption h3 { font-family: var(--f-display); font-size: 1.5rem; color: var(--bone); margin-bottom: 0.5rem; }
-    .caption p { color: var(--bone-70); }
+    .caption p { color: var(--bone-70); margin-bottom: 0.5rem; }
+    .caption .explainer {
+      background: var(--ink-2); border: 1px solid rgba(245,241,232,0.08);
+      border-radius: 10px; padding: 1rem 1.25rem; text-align: left;
+      font-size: 0.85rem; color: var(--bone-70); margin-top: 1rem;
+    }
+    .caption .explainer h4 { color: var(--bronze-bright); font-family: var(--f-body); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 0.5rem; }
+    .caption .explainer ul { margin: 0; padding-left: 1.1rem; }
+    .caption .explainer li { margin-bottom: 0.35rem; }
 
     footer {
       max-width: 1100px; margin: 0 auto; padding: 4rem 56px 3rem;
@@ -370,6 +378,14 @@ Key ID: pending...
     <div class="caption" id="caption">
       <h3>Deep Packet Inspection</h3>
       <p>Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.</p>
+      <div class="explainer" id="explainer">
+        <h4>What you are seeing</h4>
+        <ul>
+          <li>A local VPN loopback captures outbound traffic without sending it to a server.</li>
+          <li>Each flow is classified as safe, tracker, or PII exfiltration.</li>
+          <li>Blocked flows are dropped on-device and logged to the encrypted vault.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -390,27 +406,52 @@ const scenes = {
   dpi: {
     title: 'Deep Packet Inspection',
     body: 'Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.',
-    action: 'Simulate traffic'
+    action: 'Simulate traffic',
+    explainer: [
+      'A local VPN loopback captures outbound traffic without sending it to a server.',
+      'Each flow is classified as safe, tracker, or PII exfiltration.',
+      'Blocked flows are dropped on-device and logged to the encrypted vault.'
+    ]
   },
   phishing: {
     title: 'Phishing Detection',
     body: 'Incoming SMS and notification text are scanned locally by an on-device ML model. Suspicious URLs are flagged before you tap them. No message content is uploaded.',
-    action: 'Simulate message'
+    action: 'Simulate message',
+    explainer: [
+      'A tiny on-device language model parses message text and extracts links.',
+      'Known phishing patterns and suspicious domains are scored locally.',
+      'Dangerous links are disabled before the user can open them.'
+    ]
   },
   stalkerware: {
     title: 'Stalkerware Scan',
     body: 'Embergard analyses every installed app\'s requested permissions and compares behaviour against known stalkerware signatures. Flags are raised without contacting any external service.',
-    action: 'Run scan'
+    action: 'Run scan',
+    explainer: [
+      'Every installed app is checked against a local signature database.',
+      'Permission over-reach (camera, mic, location, contacts) is highlighted.',
+      'Matches are flagged locally; no app list is uploaded anywhere.'
+    ]
   },
   crypto: {
     title: 'Encrypted Vault',
     body: 'All stored security data is encrypted with AES-256-GCM using a hardware-backed key from Android Keystore. Keys are rotated automatically and never leave the device.',
-    action: 'Encrypt sample'
+    action: 'Encrypt sample',
+    explainer: [
+      'Keys are generated inside Android Keystore / StrongBox when available.',
+      'AES-256-GCM encryption happens on the device, not in the cloud.',
+      'Plaintext keys are never extractable, even by other apps or adb.'
+    ]
   },
   governance: {
     title: 'Dual Sign-Off',
     body: 'Sensitive operations require approval from both an operator and a cybersec agent. Every decision is written to a tamper-evident audit trail with SHA3-256 hashes.',
-    action: 'Request operation'
+    action: 'Request operation',
+    explainer: [
+      'Two independent parties must approve sensitive actions.',
+      'Each approval step is hashed with SHA3-256 and timestamped.',
+      'The resulting chain is tamper-evident and suitable for IHL/LOAC review.'
+    ]
   }
 };
 
@@ -419,6 +460,7 @@ const featureBtns = document.querySelectorAll('.feature-btn');
 const sceneEls = document.querySelectorAll('.scene');
 const captionH = document.querySelector('#caption h3');
 const captionP = document.querySelector('#caption p');
+const explainerEl = document.getElementById('explainer');
 const actionBtn = document.getElementById('actionBtn');
 const resetBtn = document.getElementById('resetBtn');
 
@@ -428,6 +470,8 @@ function setScene(key) {
   sceneEls.forEach(s => s.classList.toggle('active', s.id === `scene-${key}`));
   captionH.textContent = scenes[key].title;
   captionP.textContent = scenes[key].body;
+  const exp = scenes[key].explainer;
+  explainerEl.innerHTML = `\u003ch4\u003eWhat you are seeing\u003c/h4\u003e\u003cul\u003e${exp.map(e => `\u003cli\u003e${e}\u003c/li\u003e`).join('')}\u003c/ul\u003e`;
   actionBtn.textContent = scenes[key].action;
 }
 
@@ -588,6 +632,30 @@ async function runGov() {
 }
 
 const runners = { dpi: runDpi, phishing: runPhish, stalkerware: runSw, crypto: runCrypto, governance: runGov };
+
+actionBtn.addEventListener('click', () => {
+  if (runners[active]) runners[active]();
+});
+resetBtn.addEventListener('click', () => {
+  setScene(active);
+  // clear dynamic state
+  document.getElementById('dpi-pkts').textContent = '0';
+  document.getElementById('dpi-blocked').textContent = '0';
+  document.getElementById('dpi-pii').textContent = '0';
+  document.getElementById('dpi-rows').innerHTML = '\u003cdiv class="card-row"\u003e\u003cspan\u003eWaiting...\u003c/span\u003e\u003cspan class="status-dot safe"\u003e\u003c/span\u003e\u003c/div\u003e';
+  document.getElementById('dpi-log').innerHTML = '\u003cspan class="line"\u003eVPN tunnel active on-device...\u003c/span\u003e';
+  document.getElementById('phish-msg').textContent = 'Tap "Simulate message" to see Embergard scan a suspicious link locally.';
+  document.getElementById('phish-log').innerHTML = '\u003cspan class="line"\u003eML model loaded from encrypted storage...\u003c/span\u003e';
+  document.getElementById('sw-apps').textContent = '0';
+  document.getElementById('sw-flags').textContent = '0';
+  document.getElementById('sw-rows').innerHTML = '\u003cdiv class="card-row"\u003e\u003cspan\u003eStart scan to inspect apps...\u003c/span\u003e\u003cspan class="status-dot safe"\u003e\u003c/span\u003e\u003c/div\u003e';
+  document.getElementById('sw-log').innerHTML = '\u003cspan class="line"\u003eSignature database current: 2026-11-17...\u003c/span\u003e';
+  document.getElementById('crypto-files').textContent = '0';
+  document.getElementById('crypto-flow').innerHTML = 'Plaintext → AES-256-GCM → Keystore\u003cbr\u003eKey ID: pending...';
+  document.getElementById('crypto-log').innerHTML = '\u003cspan class="line"\u003eHardware-backed key generation ready...\u003c/span\u003e';
+  document.getElementById('gov-status').textContent = 'Tap "Request operation" to see the dual sign-off workflow in action.';
+  document.getElementById('gov-log').innerHTML = '\u003cspan class="line"\u003eAudit logger initialised (SHA3-256)...\u003c/span\u003e';
+});
 
 const nav = document.getElementById('nav');
 const progress = document.getElementById('scrollProgress');
