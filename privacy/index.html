@@ -1,277 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — Embergard · Aethel Guard</title>
-    <meta name="description" content="Embergard privacy policy. All security processing happens locally on your Android device. No cloud, no tracking, no data sales.">
-    <meta name="theme-color" content="#0A0D14">
-    <link rel="canonical" href="https://embergard.app/privacy">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --ink: #0A0D14;
-            --ink-2: #0F1320;
-            --ink-3: #161B2E;
-            --bronze: #B8956A;
-            --bronze-bright: #D4AF7A;
-            --bronze-line: rgba(184, 149, 106, 0.25);
-            --bone: #F5F1E8;
-            --bone-70: rgba(245, 241, 232, 0.7);
-            --bone-50: rgba(245, 241, 232, 0.5);
-            --bone-30: rgba(245, 241, 232, 0.3);
-            --slate-light: #6B7588;
-            --grid-line: rgba(100, 140, 200, 0.025);
-            --f-display: 'Fraunces', 'Cormorant Garamond', serif;
-            --f-body: 'DM Sans', sans-serif;
-            --f-mono: 'JetBrains Mono', monospace;
-        }
-        *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--f-body);
-            background: var(--ink);
-            color: var(--bone-70);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-                linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 80px 80px;
-            pointer-events: none;
-            z-index: -1;
-        }
-        a { color: var(--bronze-bright); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Embergard · An Aethel Guard company</title>
+  <meta name="description" content="Embergard privacy policy. All security processing happens locally on your Android device. No cloud, no tracking, no data sales.">
+  <meta name="theme-color" content="#0A0D14">
+  <link rel="canonical" href="https://embergard.app/privacy">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
+    :root {
+      --ink: #0A0D14; --ink-2: #0F1320; --ink-3: #161B2E; --ink-4: #1C2238;
+      --bronze: #B8956A; --bronze-bright: #D4AF7A;
+      --bronze-glow: rgba(184, 149, 106, 0.15); --bronze-line: rgba(184, 149, 106, 0.25);
+      --bone: #F5F1E8; --bone-70: rgba(245, 241, 232, 0.7); --bone-50: rgba(245, 241, 232, 0.5); --bone-30: rgba(245, 241, 232, 0.3);
+      --slate: #3A4252; --slate-light: #6B7588;
+      --grid-line: rgba(100, 140, 200, 0.025); --grid-line-bright: rgba(100, 140, 200, 0.05);
+      --f-display: 'Fraunces', 'Cormorant Garamond', serif;
+      --f-body: 'DM Sans', sans-serif;
+      --f-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-body); background: var(--ink); color: var(--bone-70);
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 1;
+    }
+    a { color: var(--bronze-bright); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem 2rem;
-            background: rgba(10, 13, 20, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(184, 149, 106, 0.1);
-        }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: var(--f-display);
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--bone);
-        }
-        .nav-brand .mark {
-            width: 32px; height: 32px;
-            border: 1px solid var(--bronze-line);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-        }
-        .nav-links a {
-            color: var(--bone-70);
-            font-size: 0.9rem;
-            margin-left: 1.5rem;
-        }
-        .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 24px 56px; display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(16px) saturate(1.5);
+      background: rgba(10, 13, 20, 0.6); border-bottom: 1px solid var(--bronze-line);
+      transition: padding 0.3s ease, background 0.3s ease;
+    }
+    nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.85); }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-brand img { width: 32px; height: 32px; }
+    .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
+    .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--bone-50); text-decoration: none; font-size: 12px;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 1px; background: var(--bronze); transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
+    .nav-links a:hover::after { width: 100%; }
 
-        .hero {
-            padding: 9rem 2rem 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .eyebrow {
-            font-family: var(--f-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--bronze);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .eyebrow::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--bronze-line);
-        }
-        .hero h1 {
-            font-family: var(--f-display);
-            font-size: clamp(2.4rem, 5vw, 3.5rem);
-            font-weight: 400;
-            color: var(--bone);
-            line-height: 1.1;
-            margin-bottom: 0.75rem;
-        }
-        .updated {
-            color: var(--slate-light);
-            font-size: 0.95rem;
-        }
+    .annotation {
+      display: flex; align-items: center; gap: 16px;
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bronze); margin-bottom: 48px;
+    }
+    .annotation::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--bronze-line), transparent);
+    }
+    .annotation::before { content: attr(data-num); font-weight: 600; color: var(--bronze-bright); }
 
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem 5rem;
-        }
-        .card {
-            background: var(--ink-2);
-            border: 1px solid rgba(245, 241, 232, 0.08);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .card h2 {
-            font-family: var(--f-display);
-            font-size: 1.4rem;
-            color: var(--bone);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-        .card p, .card li {
-            color: var(--bone-70);
-            margin-bottom: 0.75rem;
-        }
-        .card ul {
-            margin-left: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        .card strong { color: var(--bone); font-weight: 500; }
+    header {
+      padding: 9rem 56px 3rem;
+      max-width: 900px; margin: 0 auto; position: relative; z-index: 2;
+    }
+    h1 { font-family: var(--f-display); font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 400; color: var(--bone); line-height: 1.1; margin-bottom: 0.75rem; }
+    .updated { color: var(--slate-light); font-size: 0.95rem; }
 
-        .back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-top: 1rem;
-            color: var(--bone-50);
-        }
-        .back:hover { color: var(--bronze-bright); }
+    main { max-width: 900px; margin: 0 auto; padding: 0 56px 5rem; position: relative; z-index: 2; }
+    .card {
+      background: var(--ink-2); border: 1px solid rgba(229, 231, 235, 0.08);
+      border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: var(--f-display); font-size: 1.4rem;
+      color: var(--bone); margin-bottom: 0.75rem; font-weight: 500;
+    }
+    .card p, .card li { color: var(--bone-70); margin-bottom: 0.75rem; }
+    .card ul { margin-left: 1.25rem; margin-bottom: 1rem; }
+    .card strong { color: var(--bone); font-weight: 500; }
+    .back { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--bone-50); }
+    .back:hover { color: var(--bronze-bright); }
 
-        footer {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--slate-light);
-            border-top: 1px solid rgba(245, 241, 232, 0.08);
-        }
-        footer a { color: var(--bone-50); margin: 0 0.5rem; }
-        footer a:hover { color: var(--bronze-bright); }
+    footer {
+      max-width: 900px; margin: 0 auto; padding: 2rem;
+      text-align: center; font-size: 0.85rem; color: var(--slate);
+      border-top: 1px solid rgba(229, 231, 235, 0.08);
+      position: relative; z-index: 2;
+    }
+    footer .parent { color: var(--slate-light); margin-bottom: 0.25rem; }
+    footer a { color: var(--bone-50); margin: 0 0.5rem; }
+    footer a:hover { color: var(--bronze-bright); }
 
-        @media (max-width: 700px) {
-            nav { padding: 1rem; }
-            .nav-links { display: none; }
-            .hero { padding: 6rem 1rem 2rem; }
-            main { padding: 0 1rem 3rem; }
-            .card { padding: 1.5rem; }
-        }
-    </style>
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      header { padding: 7rem 24px 2rem; }
+      main { padding: 0 24px 3rem; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-    <a href="https://aethel-guard.com" class="nav-brand">
-        <span class="mark">◆</span>
-        <span>Aethel Guard</span>
-    </a>
-    <div class="nav-links">
-        <a href="/">Embergard</a>
-        <a href="/privacy">Privacy</a>
-    </div>
+<nav id="nav">
+  <a href="/" class="nav-brand">
+    <img src="../assets/img/logo-mark.svg" alt="Embergard">
+    <span class="nav-name">Ember<em>gard</em>.</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/features">How it works</a>
+    <a href="/privacy">Privacy</a>
+  </div>
 </nav>
 
-<header class="hero">
-    <div class="eyebrow">Legal / EG-PP-01</div>
-    <h1>Privacy Policy.</h1>
-    <p class="updated">Last updated: November 4, 2026</p>
+<header>
+  <div class="annotation" data-num="EG-PP-01">Legal / Privacy Policy</div>
+  <h1>Privacy Policy.</h1>
+  <p class="updated">Last updated: November 4, 2026</p>
 </header>
 
 <main>
-    <div class="card">
-        <h2>Summary</h2>
-        <p>Embergard is an on-device security application. It does <strong>not</strong> collect, transmit, sell, or share your personal data. All processing happens locally on your device.</p>
-    </div>
+  <div class="card">
+    <h2>Summary</h2>
+    <p>Embergard is an on-device security application. It does <strong>not</strong> collect, transmit, sell, or share your personal data. All processing happens locally on your device.</p>
+  </div>
 
-    <div class="card">
-        <h2>Data We Process</h2>
-        <p>Embergard processes the following data <strong>locally on your device</strong>:</p>
-        <ul>
-            <li><strong>Network traffic</strong> — inspected via VPN for PII exfiltration detection. Packet contents are not stored.</li>
-            <li><strong>SMS messages</strong> — scanned for phishing URLs. Content processed in-memory only, not persisted.</li>
-            <li><strong>Notifications</strong> — analyzed for phishing indicators. Processed in-memory, not stored.</li>
-            <li><strong>Installed apps</strong> — enumerated and checked against malware signature databases. Only app package names and permission lists are analyzed.</li>
-            <li><strong>File hashes</strong> — computed on-device for malware scanning. File contents are not uploaded.</li>
-            <li><strong>Device integrity</strong> — Play Integrity API and root detection results, stored encrypted on-device.</li>
-        </ul>
-    </div>
+  <div class="card">
+    <h2>Data We Process</h2>
+    <p>Embergard processes the following data <strong>locally on your device</strong>:</p>
+    <ul>
+      <li><strong>Network traffic</strong> — inspected via VPN for PII exfiltration detection. Packet contents are not stored.</li>
+      <li><strong>SMS messages</strong> — scanned for phishing URLs. Content processed in-memory only, not persisted.</li>
+      <li><strong>Notifications</strong> — analyzed for phishing indicators. Processed in-memory, not stored.</li>
+      <li><strong>Installed apps</strong> — enumerated and checked against malware signature databases. Only app package names and permission lists are analyzed.</li>
+      <li><strong>File hashes</strong> — computed on-device for malware scanning. File contents are not uploaded.</li>
+      <li><strong>Device integrity</strong> — Play Integrity API and root detection results, stored encrypted on-device.</li>
+    </ul>
+  </div>
 
-    <div class="card">
-        <h2>What We Don't Do</h2>
-        <ul>
-            <li>No cloud servers — all processing is on-device</li>
-            <li>No analytics or crash reporting SDKs</li>
-            <li>No advertising or ad SDKs</li>
-            <li>No selling or sharing data with third parties</li>
-            <li>No tracking or profiling</li>
-            <li>No PII retention — user hardline policy</li>
-        </ul>
-    </div>
+  <div class="card">
+    <h2>What We Don't Do</h2>
+    <ul>
+      <li>No cloud servers — all processing is on-device</li>
+      <li>No analytics or crash reporting SDKs</li>
+      <li>No advertising or ad SDKs</li>
+      <li>No selling or sharing data with third parties</li>
+      <li>No tracking or profiling</li>
+      <li>No PII retention — user hardline policy</li>
+    </ul>
+  </div>
 
-    <div class="card">
-        <h2>Permissions</h2>
-        <p>Embergard requests the following restricted permissions for its security features:</p>
-        <ul>
-            <li><strong>SMS (READ_SMS, RECEIVE_SMS)</strong> — SMS phishing detection</li>
-            <li><strong>Contacts (READ_CONTACTS)</strong> — Data exfiltration detection</li>
-            <li><strong>Call log (READ_CALL_LOG)</strong> — Stalkerware detection</li>
-            <li><strong>Notifications (BIND_NOTIFICATION_LISTENER_SERVICE)</strong> — Notification phishing detection</li>
-            <li><strong>All packages (QUERY_ALL_PACKAGES)</strong> — Full-device malware scanning</li>
-            <li><strong>Storage (MANAGE_EXTERNAL_STORAGE)</strong> — Malware file scanning</li>
-            <li><strong>VPN (BIND_VPN_SERVICE)</strong> — Deep packet inspection</li>
-        </ul>
-        <p>Each permission is essential for core security functionality. No permission is used for advertising, analytics, or data sales.</p>
-    </div>
+  <div class="card">
+    <h2>Permissions</h2>
+    <p>Embergard requests the following restricted permissions for its security features:</p>
+    <ul>
+      <li><strong>SMS (READ_SMS, RECEIVE_SMS)</strong> — SMS phishing detection</li>
+      <li><strong>Contacts (READ_CONTACTS)</strong> — Data exfiltration detection</li>
+      <li><strong>Call log (READ_CALL_LOG)</strong> — Stalkerware detection</li>
+      <li><strong>Notifications (BIND_NOTIFICATION_LISTENER_SERVICE)</strong> — Notification phishing detection</li>
+      <li><strong>All packages (QUERY_ALL_PACKAGES)</strong> — Full-device malware scanning</li>
+      <li><strong>Storage (MANAGE_EXTERNAL_STORAGE)</strong> — Malware file scanning</li>
+      <li><strong>VPN (BIND_VPN_SERVICE)</strong> — Deep packet inspection</li>
+    </ul>
+  </div>
 
-    <div class="card">
-        <h2>Data Encryption</h2>
-        <p>All stored data is encrypted with AES-256-GCM using hardware-backed keys from the Android Keystore. Keys are periodically rotated. Network traffic uses TLS with certificate pinning.</p>
-    </div>
+  <div class="card">
+    <h2>Data Encryption</h2>
+    <p>All stored data is encrypted with AES-256-GCM using hardware-backed keys from the Android Keystore. Keys are periodically rotated. Network traffic uses TLS with certificate pinning.</p>
+  </div>
 
-    <div class="card">
-        <h2>Data Deletion</h2>
-        <p>To delete all Embergard data: uninstall the app, or use the in-app "Wipe all data" option in Settings. This removes all encrypted data immediately.</p>
-    </div>
+  <div class="card">
+    <h2>Data Deletion</h2>
+    <p>To delete all Embergard data: uninstall the app, or use the in-app "Wipe all data" option in Settings. This removes all encrypted data immediately.</p>
+  </div>
 
-    <div class="card">
-        <h2>Contact</h2>
-        <p>For privacy questions: <a href="mailto:privacy@embergard.nl">privacy@embergard.nl</a></p>
-    </div>
+  <div class="card">
+    <h2>Contact</h2>
+    <p>For privacy questions: <a href="mailto:privacy@embergard.nl">privacy@embergard.nl</a></p>
+  </div>
 
-    <a href="/" class="back">← Back to Embergard</a>
+  <a href="/" class="back">← Back to Embergard</a>
 </main>
 
 <footer>
-    <p>© 2026 Embergard · Aethel Guard</p>
-    <p>
-        <a href="/">Home</a> ·
-        <a href="/privacy">Privacy</a> ·
-        <a href="https://aethel-guard.com">Aethel Guard</a>
-    </p>
+  <p class="parent">An Aethel Guard company</p>
+  <p>© 2026 Embergard · A Safer Tomorrow</p>
+  <p>
+    <a href="/">Home</a> ·
+    <a href="/features">How it works</a> ·
+    <a href="/privacy">Privacy</a> ·
+    <a href="https://aethel-guard.com">Aethel Guard</a>
+  </p>
 </footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+</script>
 
 </body>
 </html>

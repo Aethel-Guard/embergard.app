@@ -1,416 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embergard — On-Device Security · Aethel Guard</title>
-    <meta name="description" content="Embergard is an on-device security app for Android. Deep packet inspection, phishing detection, stalkerware scanning — all processed locally. No cloud, no tracking, no data sales.">
-    <meta name="theme-color" content="#0A0D14">
-    <link rel="canonical" href="https://embergard.app/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --ink: #0A0D14;
-            --ink-2: #0F1320;
-            --ink-3: #161B2E;
-            --ink-4: #1C2238;
-            --bronze: #B8956A;
-            --bronze-bright: #D4AF7A;
-            --bronze-glow: rgba(184, 149, 106, 0.15);
-            --bronze-line: rgba(184, 149, 106, 0.25);
-            --bone: #F5F1E8;
-            --bone-70: rgba(245, 241, 232, 0.7);
-            --bone-50: rgba(245, 241, 232, 0.5);
-            --bone-30: rgba(245, 241, 232, 0.3);
-            --slate: #3A4252;
-            --slate-light: #6B7588;
-            --grid-line: rgba(100, 140, 200, 0.025);
-            --f-display: 'Fraunces', 'Cormorant Garamond', serif;
-            --f-body: 'DM Sans', sans-serif;
-            --f-mono: 'JetBrains Mono', monospace;
-        }
-        *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--f-body);
-            background: var(--ink);
-            color: var(--bone-70);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-                linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 80px 80px;
-            pointer-events: none;
-            z-index: -1;
-        }
-        a { color: var(--bronze-bright); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .mono { font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.12em; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embergard — On-Device Security · Aethel Guard</title>
+  <meta name="description" content="Embergard is an on-device security app for Android. Deep packet inspection, phishing detection, stalkerware scanning — all processed locally. No cloud, no tracking, no data sales.">
+  <meta name="theme-color" content="#0A0D14">
+  <link rel="canonical" href="https://embergard.app/">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo-mark.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
+    :root {
+      --ink: #0A0D14;
+      --ink-2: #0F1320;
+      --ink-3: #161B2E;
+      --ink-4: #1C2238;
+      --bronze: #B8956A;
+      --bronze-bright: #D4AF7A;
+      --bronze-glow: rgba(184, 149, 106, 0.15);
+      --bronze-line: rgba(184, 149, 106, 0.25);
+      --bone: #F5F1E8;
+      --bone-70: rgba(245, 241, 232, 0.7);
+      --bone-50: rgba(245, 241, 232, 0.5);
+      --bone-30: rgba(245, 241, 232, 0.3);
+      --slate: #3A4252;
+      --slate-light: #6B7588;
+      --grid-line: rgba(100, 140, 200, 0.025);
+      --grid-line-bright: rgba(100, 140, 200, 0.05);
+      --f-display: 'Fraunces', 'Cormorant Garamond', serif;
+      --f-body: 'DM Sans', sans-serif;
+      --f-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-body);
+      background: var(--ink);
+      color: var(--bone-70);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none; z-index: 1;
+    }
+    a { color: var(--bronze-bright); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem 2rem;
-            background: rgba(10, 13, 20, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(184, 149, 106, 0.1);
-        }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: var(--f-display);
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--bone);
-        }
-        .nav-brand .mark {
-            width: 32px; height: 32px;
-            border: 1px solid var(--bronze-line);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-        }
-        .nav-links a {
-            color: var(--bone-70);
-            font-size: 0.9rem;
-            margin-left: 1.5rem;
-        }
-        .nav-links a:hover { color: var(--bronze-bright); }
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--bronze); z-index: 9999; width: 0%;
+      transition: width 0.1s linear;
+    }
 
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 8rem 2rem 4rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 20%; right: -10%;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--bronze-glow) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        .eyebrow {
-            font-family: var(--f-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--bronze);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .eyebrow::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--bronze-line);
-        }
-        .hero h1 {
-            font-family: var(--f-display);
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 400;
-            line-height: 1.05;
-            color: var(--bone);
-            margin-bottom: 1.5rem;
-        }
-        .hero h1 em {
-            font-style: italic;
-            color: var(--bronze-bright);
-        }
-        .hero .lead {
-            font-size: 1.35rem;
-            max-width: 620px;
-            margin-bottom: 2rem;
-        }
-        .badge-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-        .badge {
-            padding: 0.4rem 0.9rem;
-            border: 1px solid var(--bronze-line);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: var(--bronze-bright);
-        }
-        .cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 0.9rem 1.6rem;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-primary {
-            background: var(--bronze);
-            color: var(--ink);
-        }
-        .btn-primary:hover {
-            background: var(--bronze-bright);
-            text-decoration: none;
-        }
-        .btn-secondary {
-            background: transparent;
-            color: var(--bone);
-            border: 1px solid var(--bone-30);
-        }
-        .btn-secondary:hover {
-            border-color: var(--bronze-bright);
-            color: var(--bronze-bright);
-            text-decoration: none;
-        }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 24px 56px;
+      display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(16px) saturate(1.5);
+      background: rgba(10, 13, 20, 0.6);
+      border-bottom: 1px solid var(--bronze-line);
+      transition: padding 0.3s ease, background 0.3s ease;
+    }
+    nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.85); }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-brand img { width: 32px; height: 32px; }
+    .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
+    .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--bone-50); text-decoration: none; font-size: 12px;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 1px; background: var(--bronze);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
+    .nav-links a:hover::after { width: 100%; }
 
-        /* Sections */
-        section {
-            padding: 6rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .section-header {
-            display: flex;
-            align-items: baseline;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-        .section-label {
-            font-family: var(--f-mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            color: var(--bronze);
-            white-space: nowrap;
-        }
-        .section-title {
-            font-family: var(--f-display);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400;
-            color: var(--bone);
-            line-height: 1.1;
-        }
+    .annotation {
+      display: flex; align-items: center; gap: 16px;
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bronze); margin-bottom: 48px;
+    }
+    .annotation::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--bronze-line), transparent);
+    }
+    .annotation::before {
+      content: attr(data-num); font-weight: 600; color: var(--bronze-bright);
+    }
 
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .feature {
-            background: var(--ink-2);
-            border: 1px solid rgba(245, 241, 232, 0.08);
-            border-radius: 8px;
-            padding: 2rem;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .feature:hover {
-            border-color: var(--bronze-line);
-            transform: translateY(-2px);
-        }
-        .feature .icon {
-            width: 40px; height: 40px;
-            border: 1px solid var(--bronze-line);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 1.25rem;
-        }
-        .feature h3 {
-            font-family: var(--f-display);
-            font-size: 1.3rem;
-            color: var(--bone);
-            margin-bottom: 0.5rem;
-        }
-        .feature p { color: var(--bone-70); font-size: 0.95rem; }
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; padding: 140px 56px 80px;
+      overflow: hidden; z-index: 2;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg::before {
+      content: ''; position: absolute; top: 40%; left: 30%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, var(--bronze-glow) 0%, transparent 65%);
+      filter: blur(60px); transform: translate(-50%, -50%);
+      animation: glow-drift 20s ease-in-out infinite alternate;
+    }
+    .hero-bg svg {
+      position: absolute; top: 50%; right: -120px;
+      transform: translateY(-50%);
+      width: 600px; height: 600px; opacity: 0.06;
+    }
+    @keyframes glow-drift { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-45%, -55%) scale(1.1); } }
+    .hero .inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+    .hero h1 {
+      font-family: var(--f-display); font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 400; line-height: 1.05; color: var(--bone); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--bronze-bright); }
+    .hero .lead { font-size: 1.35rem; max-width: 620px; margin-bottom: 2.5rem; }
+    .badge-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .badge {
+      padding: 0.4rem 0.9rem; border: 1px solid var(--bronze-line);
+      border-radius: 100px; font-size: 0.8rem; color: var(--bronze-bright);
+    }
+    .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.9rem 1.6rem; border-radius: 6px;
+      font-size: 0.95rem; font-weight: 500; text-decoration: none;
+      transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary {
+      background: transparent; color: var(--bronze-bright);
+      border: 1px solid var(--bronze-line); text-transform: uppercase;
+      letter-spacing: 0.1em; font-size: 0.8rem; font-weight: 600;
+    }
+    .btn-primary:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); text-decoration: none; }
+    .btn-secondary {
+      background: transparent; color: var(--bone); border: 1px solid var(--bone-30);
+    }
+    .btn-secondary:hover { border-color: var(--bronze-bright); color: var(--bronze-bright); text-decoration: none; }
 
-        /* Privacy */
-        .privacy {
-            background: var(--ink-2);
-            border-top: 1px solid rgba(245, 241, 232, 0.08);
-            border-bottom: 1px solid rgba(245, 241, 232, 0.08);
-        }
-        .privacy .inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-        .privacy h2 {
-            font-family: var(--f-display);
-            font-size: clamp(1.8rem, 4vw, 2.6rem);
-            color: var(--bone);
-            margin-bottom: 1rem;
-        }
-        .privacy > .inner > p {
-            max-width: 560px;
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-        }
-        .privacy-points {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-        .privacy-point {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.95rem;
-        }
-        .privacy-point .check {
-            color: var(--bronze-bright);
-            font-weight: 600;
-        }
+    section { padding: 7rem 56px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+    .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
+    .section-label {
+      font-family: var(--f-mono); font-size: 0.7rem;
+      letter-spacing: 0.15em; color: var(--bronze); white-space: nowrap;
+    }
+    .section-title {
+      font-family: var(--f-display); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400; color: var(--bone); line-height: 1.1;
+    }
 
-        /* Footer */
-        footer {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--slate-light);
-        }
-        footer p { margin-bottom: 0.5rem; }
-        footer a { color: var(--bone-50); margin: 0 0.5rem; }
-        footer a:hover { color: var(--bronze-bright); }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+    }
+    .feature {
+      background: var(--ink-2); border: 1px solid rgba(245, 241, 232, 0.08);
+      border-radius: 8px; padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature:hover { border-color: var(--bronze-line); transform: translateY(-2px); }
+    .feature .icon {
+      width: 40px; height: 40px; border: 1px solid var(--bronze-line);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .feature h3 { font-family: var(--f-display); font-size: 1.3rem; color: var(--bone); margin-bottom: 0.5rem; }
+    .feature p { color: var(--bone-70); font-size: 0.95rem; }
 
-        @media (max-width: 700px) {
-            nav { padding: 1rem; }
-            .nav-links { display: none; }
-            .hero { padding: 6rem 1rem 3rem; }
-            section { padding: 4rem 1rem; }
-            .hero h1 { font-size: 2.75rem; }
-            .lead { font-size: 1.1rem; }
-        }
-    </style>
+    .privacy-section {
+      background: var(--ink-2);
+      border-top: 1px solid rgba(245, 241, 232, 0.08);
+      border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+    }
+    .privacy-section .inner { max-width: 1200px; margin: 0 auto; padding: 6rem 56px; position: relative; z-index: 2; }
+    .privacy-section h2 { font-family: var(--f-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--bone); margin-bottom: 1rem; }
+    .privacy-section .lead { max-width: 560px; font-size: 1.1rem; margin-bottom: 2.5rem; }
+    .privacy-points { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .privacy-point { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; }
+    .privacy-point .check { color: var(--bronze-bright); font-weight: 600; }
+
+    footer {
+      max-width: 1100px; margin: 0 auto; padding: 4rem 56px 3rem;
+      text-align: center; font-size: 0.85rem; color: var(--slate-light);
+      position: relative; z-index: 2;
+    }
+    footer p { margin-bottom: 0.5rem; }
+    footer a { color: var(--bone-50); margin: 0 0.5rem; }
+    footer a:hover { color: var(--bronze-bright); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 120px 24px 60px; }
+      section { padding: 5rem 24px; }
+      .privacy-section .inner { padding: 5rem 24px; }
+      footer { padding: 3rem 24px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-    <a href="https://aethel-guard.com" class="nav-brand">
-        <span class="mark">◆</span>
-        <span>Aethel Guard</span>
-    </a>
-    <div class="nav-links">
-        <a href="/features">Features</a>
-        <a href="#privacy">Privacy</a>
-        <a href="/privacy">Policy</a>
-    </div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-brand">
+    <img src="assets/img/logo-mark.svg" alt="Embergard">
+    <span class="nav-name">Ember<em>gard</em>.</span>
+  </a>
+  <div class="nav-links">
+    <a href="/features">How it works</a>
+    <a href="/privacy">Privacy</a>
+    <a href="https://aethel-guard.com">Aethel Guard</a>
+  </div>
 </nav>
 
 <header class="hero">
-    <div class="eyebrow">Android · On-Device · Zero-Cloud</div>
+  <div class="hero-bg">
+    <svg viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="48" stroke="var(--bronze-line)" stroke-width="0.5"/>
+      <circle cx="50" cy="50" r="38" stroke="var(--bronze-line)" stroke-width="0.5"/>
+      <line x1="50" y1="2" x2="50" y2="98" stroke="var(--bronze-line)" stroke-width="0.5"/>
+      <line x1="2" y1="50" x2="98" y2="50" stroke="var(--bronze-line)" stroke-width="0.5"/>
+    </svg>
+  </div>
+  <div class="inner">
+    <div class="annotation" data-num="EG-01">On-Device Android Security · Zero-Cloud</div>
     <h1>Embergard.<br><em>Your phone. Your data.</em></h1>
     <p class="lead">On-device security that never sends your data anywhere. Deep packet inspection, phishing detection, and stalkerware scanning — all processed locally on Android.</p>
     <div class="badge-row">
-        <span class="badge">No cloud servers</span>
-        <span class="badge">No tracking</span>
-        <span class="badge">No data sales</span>
+      <span class="badge">No cloud servers</span>
+      <span class="badge">No tracking</span>
+      <span class="badge">No data sales</span>
     </div>
     <div class="cta">
-        <a href="/features" class="btn btn-primary">See how it works</a>
-        <a href="/privacy" class="btn btn-secondary">Privacy Policy</a>
+      <a href="/features" class="btn btn-primary">See how it works</a>
+      <a href="/privacy" class="btn btn-secondary">Privacy Policy</a>
     </div>
+  </div>
 </header>
 
 <section id="features">
-    <div class="section-header">
-        <span class="section-label">EG-01 / Capabilities</span>
-        <h2 class="section-title">What Embergard does.</h2>
+  <div class="section-header">
+    <span class="section-label">EG-02 / Capabilities</span>
+    <h2 class="section-title">What Embergard does.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="icon">🌐</div>
+      <h3>Deep Packet Inspection</h3>
+      <p>Real-time VPN-based DPI monitors all network traffic. Detects PII exfiltration, cleartext HTTP, and blocked destinations — all on-device.</p>
     </div>
-    <div class="features-grid">
-        <div class="feature">
-            <div class="icon">🌐</div>
-            <h3>Deep Packet Inspection</h3>
-            <p>Real-time VPN-based DPI monitors all network traffic. Detects PII exfiltration, cleartext HTTP, and blocked destinations — all on-device.</p>
-        </div>
-        <div class="feature">
-            <div class="icon">🎣</div>
-            <h3>Phishing Detection</h3>
-            <p>Scans SMS, notifications, and URLs for phishing attempts using on-device ML. No content ever leaves your phone.</p>
-        </div>
-        <div class="feature">
-            <div class="icon">👀</div>
-            <h3>Stalkerware Scanning</h3>
-            <p>Detects spyware and stalkerware by analyzing app permission patterns. Identifies apps that shouldn't have access to your camera, mic, or location.</p>
-        </div>
-        <div class="feature">
-            <div class="icon">🔐</div>
-            <h3>Encrypted Storage</h3>
-            <p>All security data encrypted with AES-256-GCM via Android Keystore. Hardware-backed keys with periodic rotation.</p>
-        </div>
-        <div class="feature">
-            <div class="icon">📱</div>
-            <h3>IPv6 Ready</h3>
-            <p>Full IPv6 packet parsing with extension header support. Fail-closed design — no uninspected traffic gets through.</p>
-        </div>
-        <div class="feature">
-            <div class="icon">⚖️</div>
-            <h3>Dual Sign-Off Governance</h3>
-            <p>Every assessed operation requires dual sign-off (operator + cybersec agent). Full audit trail for accountability.</p>
-        </div>
+    <div class="feature">
+      <div class="icon">🎣</div>
+      <h3>Phishing Detection</h3>
+      <p>Scans SMS, notifications, and URLs for phishing attempts using on-device ML. No content ever leaves your phone.</p>
     </div>
+    <div class="feature">
+      <div class="icon">👀</div>
+      <h3>Stalkerware Scanning</h3>
+      <p>Detects spyware and stalkerware by analyzing app permission patterns. Identifies apps that shouldn't have access to your camera, mic, or location.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔐</div>
+      <h3>Encrypted Storage</h3>
+      <p>All security data encrypted with AES-256-GCM via Android Keystore. Hardware-backed keys with periodic rotation.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📱</div>
+      <h3>IPv6 Ready</h3>
+      <p>Full IPv6 packet parsing with extension header support. Fail-closed design — no uninspected traffic gets through.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">⚖️</div>
+      <h3>Dual Sign-Off Governance</h3>
+      <p>Every assessed operation requires dual sign-off (operator + cybersec agent). Full audit trail for accountability.</p>
+    </div>
+  </div>
 </section>
 
-<section class="privacy" id="privacy">
-    <div class="inner">
-        <div class="section-header" style="margin-bottom: 1.5rem;">
-            <span class="section-label">EG-02 / Privacy</span>
-            <h2 class="section-title">Your data never leaves your device.</h2>
-        </div>
-        <p>No cloud servers. No analytics. No tracking. No ad SDKs. Everything runs locally.</p>
-        <div class="privacy-points">
-            <div class="privacy-point"><span class="check">✦</span> On-device only</div>
-            <div class="privacy-point"><span class="check">✦</span> No PII retention</div>
-            <div class="privacy-point"><span class="check">✦</span> No third-party sharing</div>
-            <div class="privacy-point"><span class="check">✦</span> No advertising</div>
-            <div class="privacy-point"><span class="check">✦</span> Open source encryption</div>
-        </div>
+<section class="privacy-section" id="privacy">
+  <div class="inner">
+    <div class="section-header" style="margin-bottom: 1.5rem;">
+      <span class="section-label">EG-03 / Privacy</span>
+      <h2 class="section-title">Your data never leaves your device.</h2>
     </div>
+    <p class="lead">No cloud servers. No analytics. No tracking. No ad SDKs. Everything runs locally.</p>
+    <div class="privacy-points">
+      <div class="privacy-point"><span class="check">✦</span> On-device only</div>
+      <div class="privacy-point"><span class="check">✦</span> No PII retention</div>
+      <div class="privacy-point"><span class="check">✦</span> No third-party sharing</div>
+      <div class="privacy-point"><span class="check">✦</span> No advertising</div>
+      <div class="privacy-point"><span class="check">✦</span> Open source encryption</div>
+    </div>
+  </div>
 </section>
 
 <footer>
-    <p>© 2026 Embergard · Aethel Guard</p>
-    <p>
-        <a href="/privacy">Privacy Policy</a> ·
-        <a href="/terms">Terms of Use</a> ·
-        <a href="https://github.com/Aethel-Guard">GitHub</a> ·
-        <a href="https://aethel-guard.com">Aethel Guard</a>
-    </p>
+  <p>© 2026 Embergard · An Aethel Guard company · A Safer Tomorrow</p>
+  <p>
+    <a href="/privacy">Privacy Policy</a> ·
+    <a href="/features">How it works</a> ·
+    <a href="https://github.com/Aethel-Guard">GitHub</a> ·
+    <a href="https://aethel-guard.com">Aethel Guard</a>
+  </p>
 </footer>
+
+<script>
+const nav = document.getElementById('nav');
+const progress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (window.scrollY / h * 100) + '%';
+});
+</script>
 
 </body>
 </html>
