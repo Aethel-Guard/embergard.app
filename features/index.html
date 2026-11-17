@@ -98,8 +98,9 @@
       color: var(--bone-70); font-family: var(--f-body); font-size: 0.95rem;
       text-align: left; cursor: pointer; transition: all 0.2s;
       display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none;
     }
-    .feature-btn:hover { border-color: var(--bronze-line); color: var(--bone); }
+    .feature-btn:hover { border-color: var(--bronze-line); color: var(--bone); text-decoration: none; }
     .feature-btn.active { border-color: var(--bronze); background: var(--bronze-glow); color: var(--bone); }
     .feature-btn .icon { font-size: 1.1rem; }
 
@@ -257,21 +258,21 @@
 
 <div class="demo">
   <div class="feature-list" id="featureList">
-    <button class="feature-btn active" data-scene="dpi">
+    <a href="/features/deep-packet-inspection" class="feature-btn active" data-scene="dpi">
       <span class="icon">🌐</span> Deep Packet Inspection
-    </button>
-    <button class="feature-btn" data-scene="phishing">
+    </a>
+    <a href="/features/phishing-detection" class="feature-btn" data-scene="phishing">
       <span class="icon">🎣</span> Phishing Detection
-    </button>
-    <button class="feature-btn" data-scene="stalkerware">
+    </a>
+    <a href="/features/stalkerware-scan" class="feature-btn" data-scene="stalkerware">
       <span class="icon">👀</span> Stalkerware Scan
-    </button>
-    <button class="feature-btn" data-scene="crypto">
+    </a>
+    <a href="/features/encrypted-vault" class="feature-btn" data-scene="crypto">
       <span class="icon">🔐</span> Encrypted Vault
-    </button>
-    <button class="feature-btn" data-scene="governance">
+    </a>
+    <a href="/features/dual-sign-off" class="feature-btn" data-scene="governance">
       <span class="icon">⚖️</span> Dual Sign-Off
-    </button>
+    </a>
   </div>
 
   <div class="stage">
@@ -369,7 +370,7 @@ Key ID: pending...
 
     <div class="caption" id="caption">
       <h3>Deep Packet Inspection</h3>
-      <p>Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.</p>
+      <p>Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone. <a href="/features/deep-packet-inspection">See full demo →</a></p>
     </div>
   </div>
 </div>
@@ -427,7 +428,14 @@ function setScene(key) {
   featureBtns.forEach(b => b.classList.toggle('active', b.dataset.scene === key));
   sceneEls.forEach(s => s.classList.toggle('active', s.id === `scene-${key}`));
   captionH.textContent = scenes[key].title;
-  captionP.textContent = scenes[key].body;
+  const map = {
+    dpi: '/features/deep-packet-inspection',
+    phishing: '/features/phishing-detection',
+    stalkerware: '/features/stalkerware-scan',
+    crypto: '/features/encrypted-vault',
+    governance: '/features/dual-sign-off'
+  };
+  captionP.innerHTML = `${scenes[key].body} <a href="${map[key]}">See full demo →</a>`;
   actionBtn.textContent = scenes[key].action;
 }
 
