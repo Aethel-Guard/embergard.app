@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="emberGrad" x1="256" y1="40" x2="256" y2="472" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+  <!-- Outer flame shield -->
+  <path d="M256 40 C180 120 120 200 120 300 C120 390 180 472 256 472 C332 472 392 390 392 300 C392 200 332 120 256 40 Z"
+        fill="url(#emberGrad)" opacity="0.15" />
+  <!-- Left petal -->
+  <path d="M256 80 C200 150 140 240 140 320 C140 380 180 430 256 440 C220 400 200 340 220 260 C230 220 240 180 256 80 Z"
+        fill="url(#emberGrad)" />
+  <!-- Right petal -->
+  <path d="M256 80 C312 150 372 240 372 320 C372 380 332 430 256 440 C292 400 312 340 292 260 C282 220 272 180 256 80 Z"
+        fill="url(#emberGrad)" />
+  <!-- Inner flame -->
+  <path d="M256 160 C230 210 210 270 210 320 C210 360 230 390 256 410 C282 390 302 360 302 320 C302 270 282 210 256 160 Z"
+        fill="#FEF3C7" />
+  <!-- Center star -->
+  <path d="M256 220 L268 268 L320 268 L278 298 L292 350 L256 320 L220 350 L234 298 L192 268 L244 268 Z"
+        fill="#B45309" />
+</svg>

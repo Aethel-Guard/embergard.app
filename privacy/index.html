@@ -3,174 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — Embergard · Aethel Guard</title>
+    <title>Privacy Policy — Embergard · Your AI Security Companion</title>
     <meta name="description" content="Embergard privacy policy. All security processing happens locally on your Android device. No cloud, no tracking, no data sales.">
-    <meta name="theme-color" content="#0A0D14">
+    <meta name="theme-color" content="#0F172A">
     <link rel="canonical" href="https://embergard.app/privacy">
+    <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --ink: #0A0D14;
-            --ink-2: #0F1320;
-            --ink-3: #161B2E;
-            --bronze: #B8956A;
-            --bronze-bright: #D4AF7A;
-            --bronze-line: rgba(184, 149, 106, 0.25);
-            --bone: #F5F1E8;
-            --bone-70: rgba(245, 241, 232, 0.7);
-            --bone-50: rgba(245, 241, 232, 0.5);
-            --bone-30: rgba(245, 241, 232, 0.3);
-            --slate-light: #6B7588;
-            --grid-line: rgba(100, 140, 200, 0.025);
+            --navy: #0F172A;
+            --navy-2: #131C31;
+            --navy-3: #1A2642;
+            --ember: #F59E0B;
+            --ember-light: #FBBF24;
+            --ember-line: rgba(245, 158, 11, 0.25);
+            --light: #E5E7EB;
+            --light-70: rgba(229, 231, 235, 0.7);
+            --light-50: rgba(229, 231, 235, 0.5);
+            --light-30: rgba(229, 231, 235, 0.3);
+            --slate: #64748B;
+            --slate-light: #94A3B8;
+            --grid-line: rgba(148, 163, 184, 0.03);
             --f-display: 'Fraunces', 'Cormorant Garamond', serif;
             --f-body: 'DM Sans', sans-serif;
             --f-mono: 'JetBrains Mono', monospace;
         }
-        *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
+        *:focus-visible { outline: 2px solid var(--ember-light); outline-offset: 2px; }
         html { scroll-behavior: smooth; }
         body {
             font-family: var(--f-body);
-            background: var(--ink);
-            color: var(--bone-70);
+            background: var(--navy);
+            color: var(--light-70);
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
         }
         body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: fixed; inset: 0;
             background:
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
                 linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
             background-size: 80px 80px;
-            pointer-events: none;
-            z-index: -1;
+            pointer-events: none; z-index: -1;
         }
-        a { color: var(--bronze-bright); text-decoration: none; }
+        a { color: var(--ember-light); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
         nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
             padding: 1.25rem 2rem;
-            background: rgba(10, 13, 20, 0.85);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(184, 149, 106, 0.1);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.1);
         }
         .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: var(--f-display);
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--bone);
+            display: flex; align-items: center; gap: 0.75rem;
+            font-family: var(--f-display); font-size: 1.25rem; font-weight: 500; color: var(--light);
         }
-        .nav-brand .mark {
-            width: 32px; height: 32px;
-            border: 1px solid var(--bronze-line);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-        }
-        .nav-links a {
-            color: var(--bone-70);
-            font-size: 0.9rem;
-            margin-left: 1.5rem;
-        }
-        .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
+        .nav-brand img { width: 32px; height: 32px; }
+        .nav-links a { color: var(--light-70); font-size: 0.9rem; margin-left: 1.5rem; }
+        .nav-links a:hover { color: var(--ember-light); text-decoration: none; }
 
-        .hero {
-            padding: 9rem 2rem 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .hero { padding: 9rem 2rem 3rem; max-width: 800px; margin: 0 auto; }
         .eyebrow {
-            font-family: var(--f-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--bronze);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ember);
+            margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;
         }
-        .eyebrow::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--bronze-line);
-        }
+        .eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--ember-line); }
         .hero h1 {
-            font-family: var(--f-display);
-            font-size: clamp(2.4rem, 5vw, 3.5rem);
-            font-weight: 400;
-            color: var(--bone);
-            line-height: 1.1;
-            margin-bottom: 0.75rem;
+            font-family: var(--f-display); font-size: clamp(2.4rem, 5vw, 3.5rem);
+            font-weight: 400; color: var(--light); line-height: 1.1; margin-bottom: 0.75rem;
         }
-        .updated {
-            color: var(--slate-light);
-            font-size: 0.95rem;
-        }
+        .updated { color: var(--slate-light); font-size: 0.95rem; }
 
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem 5rem;
-        }
+        main { max-width: 800px; margin: 0 auto; padding: 0 2rem 5rem; }
         .card {
-            background: var(--ink-2);
-            border: 1px solid rgba(245, 241, 232, 0.08);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
+            background: var(--navy-2); border: 1px solid rgba(229, 231, 235, 0.08);
+            border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem;
         }
         .card h2 {
-            font-family: var(--f-display);
-            font-size: 1.4rem;
-            color: var(--bone);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
+            font-family: var(--f-display); font-size: 1.4rem;
+            color: var(--light); margin-bottom: 0.75rem; font-weight: 500;
         }
-        .card p, .card li {
-            color: var(--bone-70);
-            margin-bottom: 0.75rem;
-        }
-        .card ul {
-            margin-left: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        .card strong { color: var(--bone); font-weight: 500; }
+        .card p, .card li { color: var(--light-70); margin-bottom: 0.75rem; }
+        .card ul { margin-left: 1.25rem; margin-bottom: 1rem; }
+        .card strong { color: var(--light); font-weight: 500; }
 
-        .back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-top: 1rem;
-            color: var(--bone-50);
-        }
-        .back:hover { color: var(--bronze-bright); }
+        .back { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--light-50); }
+        .back:hover { color: var(--ember-light); }
 
         footer {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--slate-light);
-            border-top: 1px solid rgba(245, 241, 232, 0.08);
+            max-width: 800px; margin: 0 auto; padding: 2rem;
+            text-align: center; font-size: 0.85rem; color: var(--slate);
+            border-top: 1px solid rgba(229, 231, 235, 0.08);
         }
-        footer a { color: var(--bone-50); margin: 0 0.5rem; }
-        footer a:hover { color: var(--bronze-bright); }
+        footer .parent { color: var(--slate-light); margin-bottom: 0.25rem; }
+        footer a { color: var(--light-50); margin: 0 0.5rem; }
+        footer a:hover { color: var(--ember-light); }
 
         @media (max-width: 700px) {
             nav { padding: 1rem; }
@@ -184,12 +116,13 @@
 <body>
 
 <nav>
-    <a href="https://aethel-guard.com" class="nav-brand">
-        <span class="mark">◆</span>
-        <span>Aethel Guard</span>
+    <a href="/" class="nav-brand">
+        <img src="../assets/img/logo.svg" alt="Embergard">
+        <span>Embergard</span>
     </a>
     <div class="nav-links">
-        <a href="/">Embergard</a>
+        <a href="/">Home</a>
+        <a href="/features">How it works</a>
         <a href="/privacy">Privacy</a>
     </div>
 </nav>
@@ -265,9 +198,11 @@
 </main>
 
 <footer>
-    <p>© 2026 Embergard · Aethel Guard</p>
+    <p class="parent">An Aethel Guard company</p>
+    <p>© 2026 Embergard · A Safer Tomorrow</p>
     <p>
         <a href="/">Home</a> ·
+        <a href="/features">How it works</a> ·
         <a href="/privacy">Privacy</a> ·
         <a href="https://aethel-guard.com">Aethel Guard</a>
     </p>
