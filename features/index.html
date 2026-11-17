@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Embergard Works — On-Device Security Demo</title>
-  <meta name="description" content="Interactive walkthrough of Embergard's on-device security capabilities. Deep packet inspection, phishing detection, stalkerware scanning, encrypted vault and dual sign-off.">
+  <title>How Embergard Works — Interactive Demo</title>
+  <meta name="description" content="Interactive walkthrough of Embergard's on-device security features. See how DPI, phishing detection, stalkerware scanning and encrypted storage work locally on your phone.">
   <meta name="theme-color" content="#0A0D14">
-  <link rel="canonical" href="https://embergard.app/features">
-  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
     :root {
       --ink: #0A0D14; --ink-2: #0F1320; --ink-3: #161B2E; --ink-4: #1C2238;
       --bronze: #B8956A; --bronze-bright: #D4AF7A;
@@ -26,10 +23,14 @@
       --f-body: 'DM Sans', sans-serif;
       --f-mono: 'JetBrains Mono', monospace;
     }
+    *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: var(--f-body); background: var(--ink); color: var(--bone-70);
-      line-height: 1.6; -webkit-font-smoothing: antialiased;
+      font-family: var(--f-body);
+      background: var(--ink);
+      color: var(--bone-70);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
     body::before {
       content: ''; position: fixed; inset: 0;
@@ -49,8 +50,6 @@
     a { color: var(--bronze-bright); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--bronze); z-index: 9999; width: 0%; }
-
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       padding: 24px 56px; display: flex; justify-content: space-between; align-items: center;
@@ -64,98 +63,133 @@
     .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
     .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a { color: var(--bone-50); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; position: relative; }
-    .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 1px; background: var(--bronze); transition: width 0.3s ease; }
+    .nav-links a {
+      color: var(--bone-50); text-decoration: none; font-size: 12px;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 1px; background: var(--bronze); transition: width 0.3s ease;
+    }
     .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
     .nav-links a:hover::after { width: 100%; }
 
-    .annotation { display: flex; align-items: center; gap: 16px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bronze); margin-bottom: 48px; }
-    .annotation::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--bronze-line), transparent); }
-    .annotation::before { content: attr(data-num); font-weight: 600; color: var(--bronze-bright); }
-
-    .hero { min-height: 40vh; display: flex; align-items: flex-end; position: relative; padding: 140px 56px 40px; z-index: 2; }
-    .hero h1 { font-family: var(--f-display); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.05; color: var(--bone); margin-bottom: 1rem; }
-    .hero h1 em { font-style: italic; color: var(--bronze-bright); }
-    .hero .lead { font-size: 1.2rem; max-width: 620px; }
-
-    .demo-layout {
-      max-width: 1200px; margin: 0 auto; padding: 2rem 56px 6rem;
-      display: grid; grid-template-columns: 340px 1fr; gap: 3rem;
-      position: relative; z-index: 2;
+    header {
+      padding: 8rem 2rem 2rem;
+      max-width: 1100px; margin: 0 auto;
     }
+    .eyebrow {
+      font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze);
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--bronze-line); }
+    h1 { font-family: var(--f-display); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; color: var(--bone); line-height: 1.05; margin-bottom: 1rem; }
+    h1 em { font-style: italic; color: var(--bronze-bright); }
+    .lead { font-size: 1.25rem; max-width: 640px; margin-bottom: 3rem; }
 
-    .capability-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .capability {
-      background: var(--ink-2); border: 1px solid rgba(245,241,232,0.08);
-      border-radius: 8px; padding: 1.25rem;
+    .demo { max-width: 1100px; margin: 0 auto; padding: 2rem 56px 6rem; display: grid; grid-template-columns: 320px 1fr; gap: 3rem; position: relative; z-index: 2; }
+
+    /* Feature menu */
+    .feature-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .feature-btn {
+      background: var(--ink-2); border: 1px solid rgba(245, 241, 232, 0.08);
+      border-radius: 8px; padding: 1rem 1.25rem;
+      color: var(--bone-70); font-family: var(--f-body); font-size: 0.95rem;
       text-align: left; cursor: pointer; transition: all 0.2s;
-      display: flex; align-items: center; gap: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
     }
-    .capability:hover { border-color: var(--bronze-line); }
-    .capability.active { border-color: var(--bronze); background: var(--bronze-glow); }
-    .capability .icon { width: 40px; height: 40px; border: 1px solid var(--bronze-line); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
-    .capability.active .icon { border-color: var(--bronze); }
-    .capability .meta { flex: 1; }
-    .capability h3 { font-family: var(--f-display); font-size: 1.05rem; color: var(--bone); margin-bottom: 0.2rem; }
-    .capability p { font-size: 0.8rem; color: var(--slate-light); line-height: 1.4; }
+    .feature-btn:hover { border-color: var(--bronze-line); color: var(--bone); }
+    .feature-btn.active { border-color: var(--bronze); background: var(--bronze-glow); color: var(--bone); }
+    .feature-btn .icon { font-size: 1.1rem; }
 
+    /* Phone */
     .stage { display: flex; flex-direction: column; align-items: center; }
-    .stage-header { width: 100%; max-width: 360px; margin-bottom: 1.5rem; }
-    .stage-label {
-      font-family: var(--f-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze);
-      margin-bottom: 0.5rem;
-    }
-    .stage-title { font-family: var(--f-display); font-size: 1.6rem; color: var(--bone); margin-bottom: 0.5rem; }
-    .stage-desc { font-size: 0.95rem; color: var(--bone-70); }
-    .run-btn {
-      margin-top: 1rem; align-self: flex-start;
-      padding: 0.75rem 1.4rem; border-radius: 6px;
-      background: transparent; color: var(--bronze-bright); border: 1px solid var(--bronze-line);
-      font-family: var(--f-body); font-size: 0.8rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;
-    }
-    .run-btn:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
-
-    .phone-frame {
-      width: 300px; height: 600px; background: #05060A;
+    .phone {
+      width: 320px; height: 640px; background: #05060A;
       border: 12px solid #1a1d26; border-radius: 42px;
       box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 0 0 2px rgba(184,149,106,0.15);
       position: relative; overflow: hidden;
     }
-    .phone-notch {
+    .notch {
       position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 110px; height: 26px; background: #1a1d26; border-radius: 0 0 14px 14px; z-index: 5;
+      width: 120px; height: 28px; background: #1a1d26; border-radius: 0 0 16px 16px; z-index: 5;
     }
-    .phone-screen {
-      width: 100%; height: 100%; padding: 40px 16px 22px;
+    .screen {
+      width: 100%; height: 100%;
+      padding: 42px 18px 24px;
       display: flex; flex-direction: column;
       background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
     }
-    .phone-bar {
-      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
     }
-    .phone-title { font-family: var(--f-display); font-size: 1.05rem; color: var(--bone); }
-    .phone-badge {
-      font-family: var(--f-mono); font-size: 0.5rem; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--success); border: 1px solid rgba(46,184,114,0.3); border-radius: 100px; padding: 0.25rem 0.5rem;
+    .app-title { font-family: var(--f-display); font-size: 1.15rem; color: var(--bone); }
+    .app-status { font-family: var(--f-mono); font-size: 0.55rem; text-transform: uppercase; color: var(--success); letter-spacing: 0.08em; }
+
+    .phone-content { flex: 1; position: relative; }
+    .scene { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.4s; display: flex; flex-direction: column; }
+    .scene.active { opacity: 1; pointer-events: auto; }
+
+    .metric-row { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .metric {
+      flex: 1; background: var(--ink-3); border: 1px solid rgba(245,241,232,0.06);
+      border-radius: 8px; padding: 0.6rem; text-align: center;
     }
-    .phone-log {
+    .metric .value { font-family: var(--f-mono); font-size: 1.1rem; color: var(--bone); }
+    .metric .label { font-size: 0.6rem; color: var(--slate-light); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .card {
+      background: var(--ink-3); border: 1px solid rgba(245,241,232,0.08);
+      border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem;
+    }
+    .card-title { font-size: 0.8rem; color: var(--bone); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .card-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0; border-bottom: 1px solid rgba(245,241,232,0.06);
+      font-size: 0.8rem;
+    }
+    .card-row:last-child { border-bottom: none; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 0.4rem; }
+    .status-dot.safe { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    .status-dot.warn { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+    .sim-log {
       flex: 1; overflow-y: auto;
       font-family: var(--f-mono); font-size: 0.7rem; color: var(--slate-light);
       background: var(--ink-3); border: 1px solid rgba(245,241,232,0.08);
-      border-radius: 10px; padding: 0.75rem; line-height: 1.8;
+      border-radius: 10px; padding: 0.75rem;
+      line-height: 1.8;
     }
-    .phone-log .line { display: block; opacity: 0; animation: fadeIn 0.35s forwards; }
-    .phone-log .safe { color: var(--success); }
-    .phone-log .warn { color: var(--bronze-bright); }
-    .phone-hint { color: var(--slate-light); font-style: italic; }
+    .sim-log .line { display: block; opacity: 0; animation: fadeIn 0.3s forwards; }
+    .sim-log .safe { color: var(--success); }
+    .sim-log .warn { color: var(--bronze-bright); }
 
     @keyframes fadeIn { to { opacity: 1; } }
+
+    .controls {
+      margin-top: 1.5rem; display: flex; gap: 0.75rem;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .controls button {
+      background: transparent; color: var(--bronze-bright); border: 1px solid var(--bronze-line);
+      border-radius: 6px; padding: 0.75rem 1.25rem;
+      font-family: var(--f-body); font-weight: 600; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .controls button:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
+    .controls button.secondary { background: transparent; color: var(--bone); border: 1px solid var(--bone-30); }
+    .controls button.secondary:hover { border-color: var(--bronze-bright); color: var(--bronze-bright); background: transparent; }
+
+    .caption { max-width: 480px; margin-top: 2rem; text-align: center; }
+    .caption h3 { font-family: var(--f-display); font-size: 1.5rem; color: var(--bone); margin-bottom: 0.5rem; }
+    .caption p { color: var(--bone-70); }
 
     footer {
       max-width: 1100px; margin: 0 auto; padding: 4rem 56px 3rem;
       text-align: center; font-size: 0.85rem; color: var(--slate-light);
-      border-top: 1px solid rgba(245,241,232,0.08); margin-top: 2rem;
+      border-top: 1px solid rgba(245,241,232,0.08); margin-top: 4rem;
       position: relative; z-index: 2;
     }
     footer .parent { color: var(--slate-light); margin-bottom: 0.25rem; }
@@ -166,12 +200,11 @@
       nav { padding: 16px 24px; }
       nav.scrolled { padding: 12px 24px; }
       .nav-links { display: none; }
-      .hero { padding: 120px 24px 40px; }
-      .demo-layout { grid-template-columns: 1fr; padding: 2rem 24px 4rem; }
-      .capability-list { flex-direction: row; flex-wrap: wrap; }
-      .capability { flex: 1; min-width: 140px; }
-      .stage { order: -1; margin-bottom: 2rem; }
-      .phone-frame { width: 280px; height: 540px; }
+      header { padding: 7rem 24px 2rem; }
+      .demo { padding: 2rem 24px 4rem; grid-template-columns: 1fr; }
+      .feature-list { flex-direction: row; flex-wrap: wrap; }
+      .feature-btn { flex: 1; min-width: 140px; }
+      .stage { order: -1; }
     }
   </style>
 </head>
@@ -216,75 +249,130 @@
   </div>
 </nav>
 
-<header class="hero">
-  <div class="inner" style="max-width:1100px; margin:0 auto; width:100%;">
-    <div class="annotation" data-num="EG-04">Interactive Demo</div>
-    <h1>See Embergard <em>in action.</em></h1>
-    <p class="lead">Pick a capability, run the simulation, and watch what happens on your device — no cloud, no hidden data transfer.</p>
-  </div>
+<header style="padding: 140px 56px 2rem; max-width:1100px; margin:0 auto; position:relative; z-index:2;">
+  <div class="eyebrow">Interactive demo</div>
+  <h1>How Embergard <em>protects you.</em></h1>
+  <p class="lead">Tap a feature to see exactly what happens on your device — no cloud, no hidden data transfer, no guesswork.</p>
 </header>
 
-<section class="demo-layout">
-  <div class="capability-list" id="capabilityList">
-    <button class="capability active" data-key="dpi">
-      <span class="icon">🌐</span>
-      <span class="meta">
-        <h3>Deep Packet Inspection</h3>
-        <p>Inspect every packet locally.</p>
-      </span>
+<div class="demo">
+  <div class="feature-list" id="featureList">
+    <button class="feature-btn active" data-scene="dpi">
+      <span class="icon">🌐</span> Deep Packet Inspection
     </button>
-    <button class="capability" data-key="phishing">
-      <span class="icon">🎣</span>
-      <span class="meta">
-        <h3>Phishing Detection</h3>
-        <p>Scan SMS and links on-device.</p>
-      </span>
+    <button class="feature-btn" data-scene="phishing">
+      <span class="icon">🎣</span> Phishing Detection
     </button>
-    <button class="capability" data-key="stalkerware">
-      <span class="icon">👀</span>
-      <span class="meta">
-        <h3>Stalkerware Scan</h3>
-        <p>Detect suspicious apps.</p>
-      </span>
+    <button class="feature-btn" data-scene="stalkerware">
+      <span class="icon">👀</span> Stalkerware Scan
     </button>
-    <button class="capability" data-key="crypto">
-      <span class="icon">🔐</span>
-      <span class="meta">
-        <h3>Encrypted Vault</h3>
-        <p>Hardware-backed encryption.</p>
-      </span>
+    <button class="feature-btn" data-scene="crypto">
+      <span class="icon">🔐</span> Encrypted Vault
     </button>
-    <button class="capability" data-key="governance">
-      <span class="icon">⚖️</span>
-      <span class="meta">
-        <h3>Dual Sign-Off</h3>
-        <p>Operator + cybersec approval.</p>
-      </span>
+    <button class="feature-btn" data-scene="governance">
+      <span class="icon">⚖️</span> Dual Sign-Off
     </button>
   </div>
 
   <div class="stage">
-    <div class="stage-header">
-      <div class="stage-label" id="stageLabel">EG-04.1 / On-Device</div>
-      <h2 class="stage-title" id="stageTitle">Deep Packet Inspection</h2>
-      <p class="stage-desc" id="stageDesc">Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.</p>
-      <button class="run-btn" id="runBtn">Run simulation</button>
-    </div>
-
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="phone-bar">
-          <div class="phone-title">Embergard</div>
-          <div class="phone-badge">● On-Device</div>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="app-header">
+          <div class="app-title">Embergard</div>
+          <div class="app-status">● On-Device</div>
         </div>
-        <div class="phone-log" id="phoneLog">
-          <span class="line phone-hint">Select a capability and press "Run simulation" to start.</span>
+
+        <div class="phone-content" id="phoneContent">
+          <!-- DPI -->
+          <div class="scene active" id="scene-dpi">
+            <div class="metric-row">
+              <div class="metric"><div class="value" id="dpi-pkts">0</div><div class="label">Packets</div></div>
+              <div class="metric"><div class="value" id="dpi-blocked">0</div><div class="label">Blocked</div></div>
+              <div class="metric"><div class="value" id="dpi-pii">0</div><div class="label">PII leaks</div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">🌐 Traffic inspector</div>
+              <div id="dpi-rows">
+                <div class="card-row"><span>Waiting...</span><span class="status-dot safe"></span></div>
+              </div>
+            </div>
+            <div class="sim-log" id="dpi-log">
+              <span class="line">VPN tunnel active on-device...</span>
+            </div>
+          </div>
+
+          <!-- Phishing -->
+          <div class="scene" id="scene-phishing">
+            <div class="card">
+              <div class="card-title">📨 Message scanner</div>
+              <div id="phish-msg" style="font-size:0.85rem; color:var(--bone-70); min-height:60px;">Tap "Simulate message" to see Embergard scan a suspicious link locally.</div>
+            </div>
+            <div class="sim-log" id="phish-log">
+              <span class="line">ML model loaded from encrypted storage...</span>
+            </div>
+          </div>
+
+          <!-- Stalkerware -->
+          <div class="scene" id="scene-stalkerware">
+            <div class="metric-row">
+              <div class="metric"><div class="value" id="sw-apps">0</div><div class="label">Scanned</div></div>
+              <div class="metric"><div class="value" id="sw-flags">0</div><div class="label">Flagged</div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">👀 Permission analyser</div>
+              <div id="sw-rows">
+                <div class="card-row"><span>Start scan to inspect apps...</span><span class="status-dot safe"></span></div>
+              </div>
+            </div>
+            <div class="sim-log" id="sw-log">
+              <span class="line">Signature database current: 2026-11-17...</span>
+            </div>
+          </div>
+
+          <!-- Crypto -->
+          <div class="scene" id="scene-crypto">
+            <div class="metric-row">
+              <div class="metric"><div class="value">AES-256</div><div class="label">Cipher</div></div>
+              <div class="metric"><div class="value" id="crypto-files">0</div><div class="label">Files</div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">🔐 Keystore flow</div>
+              <div id="crypto-flow" style="font-family:var(--f-mono); font-size:0.7rem; color:var(--slate-light); line-height:1.8;">
+Plaintext → AES-256-GCM → Keystore
+Key ID: pending...
+              </div>
+            </div>
+            <div class="sim-log" id="crypto-log">
+              <span class="line">Hardware-backed key generation ready...</span>
+            </div>
+          </div>
+
+          <!-- Governance -->
+          <div class="scene" id="scene-governance">
+            <div class="card">
+              <div class="card-title">⚖️ Operation approval</div>
+              <div id="gov-status" style="font-size:0.85rem; color:var(--bone-70); min-height:60px;">Tap "Request operation" to see the dual sign-off workflow in action.</div>
+            </div>
+            <div class="sim-log" id="gov-log">
+              <span class="line">Audit logger initialised (SHA3-256)...</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="controls" id="controls">
+      <button id="actionBtn">Simulate traffic</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+    </div>
+
+    <div class="caption" id="caption">
+      <h3>Deep Packet Inspection</h3>
+      <p>Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.</p>
+    </div>
   </div>
-</section>
+</div>
 
 <footer>
   <p class="parent">An Aethel Guard company</p>
@@ -298,154 +386,208 @@
 </footer>
 
 <script>
-const capabilities = {
+const scenes = {
   dpi: {
-    label: 'EG-04.1 / On-Device',
     title: 'Deep Packet Inspection',
-    desc: 'Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.',
-    run: async () => {
-      const flows = [
-        { name: 'api.example.com', safe: true, note: 'TLS 1.3 ✓' },
-        { name: 'analytics-tracker.net', safe: false, note: 'tracker blocked' },
-        { name: 'banking.example.com', safe: true, note: 'HTTPS pinned' },
-        { name: 'leaky-sdk.com', safe: false, note: 'PII exfil detected' }
-      ];
-      let pkts=0, blocked=0;
-      log('VPN tunnel active on-device...');
-      for (const flow of flows) {
-        await sleep(550);
-        pkts += Math.floor(Math.random()*40)+10;
-        log(`${flow.safe ? 'ALLOW' : 'BLOCK'} ${flow.name} → ${flow.note}`, flow.safe ? 'safe' : 'warn');
-        if (!flow.safe) blocked++;
-      }
-      await sleep(400);
-      log(`${pkts} packets inspected · ${blocked} blocked · report sealed`, 'safe');
-    }
+    body: 'Embergard creates a local VPN and inspects every packet on your device. Suspicious destinations, cleartext HTTP, and PII exfiltration attempts are blocked before they leave the phone.',
+    action: 'Simulate traffic'
   },
   phishing: {
-    label: 'EG-04.2 / ML Local',
     title: 'Phishing Detection',
-    desc: 'Incoming SMS and notification text are scanned locally by an on-device ML model. Suspicious URLs are flagged before you tap them. No message content is uploaded.',
-    run: async () => {
-      const samples = [
-        { text: 'Your package is waiting. Track at http://fake-delivery.xyz/abc123', bad: true },
-        { text: 'Bank alert: confirm your account at http://secure-bank.example.com/login', bad: false },
-        { text: 'Free gift! Claim now at http://win-now.cc/prize', bad: true }
-      ];
-      const sample = samples[Math.floor(Math.random()*samples.length)];
-      log('Incoming SMS received...');
-      await sleep(400);
-      log(sample.text);
-      await sleep(600);
-      log('Running local ML classifier...');
-      await sleep(600);
-      if (sample.bad) log('Result: PHISHING — link quarantined.', 'warn');
-      else log('Result: SAFE — link allowed.', 'safe');
-    }
+    body: 'Incoming SMS and notification text are scanned locally by an on-device ML model. Suspicious URLs are flagged before you tap them. No message content is uploaded.',
+    action: 'Simulate message'
   },
   stalkerware: {
-    label: 'EG-04.3 / Scan',
     title: 'Stalkerware Scan',
-    desc: "Embergard analyses every installed app's requested permissions and compares behaviour against known stalkerware signatures. Flags are raised without contacting any external service.",
-    run: async () => {
-      log('Signature database current: 2026-11-17...');
-      const apps = [
-        { name: 'Calculator', flag: false },
-        { name: 'Flashlight Pro', flag: true },
-        { name: 'Messages', flag: false },
-        { name: 'Unknown Helper', flag: true }
-      ];
-      for (const app of apps) {
-        await sleep(450);
-        log(`${app.flag ? 'FLAG' : 'OK'} ${app.name}`, app.flag ? 'warn' : 'safe');
-      }
-      await sleep(400);
-      log('Scan complete. No data uploaded.', 'safe');
-    }
+    body: 'Embergard analyses every installed app\'s requested permissions and compares behaviour against known stalkerware signatures. Flags are raised without contacting any external service.',
+    action: 'Run scan'
   },
   crypto: {
-    label: 'EG-04.4 / Keystore',
     title: 'Encrypted Vault',
-    desc: 'All stored security data is encrypted with AES-256-GCM using a hardware-backed key from Android Keystore. Keys are rotated automatically and never leave the device.',
-    run: async () => {
-      log('Hardware-backed key generation ready...');
-      await sleep(400);
-      log('Key egk-7a3f retrieved from StrongBox...');
-      await sleep(500);
-      log('Encrypting sample security report...');
-      await sleep(500);
-      log('AES-256-GCM seal complete.', 'safe');
-      await sleep(400);
-      log('Key never left device.', 'safe');
-    }
+    body: 'All stored security data is encrypted with AES-256-GCM using a hardware-backed key from Android Keystore. Keys are rotated automatically and never leave the device.',
+    action: 'Encrypt sample'
   },
   governance: {
-    label: 'EG-04.5 / Governance',
     title: 'Dual Sign-Off',
-    desc: 'Sensitive operations require approval from both an operator and a cybersec agent. Every decision is written to a tamper-evident audit trail with SHA3-256 hashes.',
-    run: async () => {
-      log('Operator submitted operation request.');
-      await sleep(600);
-      log('SHA3-256 entry: a1b2c3d4...');
-      await sleep(600);
-      log('cybersec_agent reviewing risk assessment...');
-      await sleep(800);
-      log('APPROVED — dual sign-off complete.', 'safe');
-      await sleep(400);
-      log('Evidence sealed into Merkle-linked chain.', 'safe');
-    }
+    body: 'Sensitive operations require approval from both an operator and a cybersec agent. Every decision is written to a tamper-evident audit trail with SHA3-256 hashes.',
+    action: 'Request operation'
   }
 };
 
-const phoneLog = document.getElementById('phoneLog');
-const stageLabel = document.getElementById('stageLabel');
-const stageTitle = document.getElementById('stageTitle');
-const stageDesc = document.getElementById('stageDesc');
-const runBtn = document.getElementById('runBtn');
-const capabilityBtns = document.querySelectorAll('.capability');
-let activeKey = 'dpi';
-let running = false;
+let active = 'dpi';
+const featureBtns = document.querySelectorAll('.feature-btn');
+const sceneEls = document.querySelectorAll('.scene');
+const captionH = document.querySelector('#caption h3');
+const captionP = document.querySelector('#caption p');
+const actionBtn = document.getElementById('actionBtn');
+const resetBtn = document.getElementById('resetBtn');
 
-function log(text, cls='') {
+function setScene(key) {
+  active = key;
+  featureBtns.forEach(b => b.classList.toggle('active', b.dataset.scene === key));
+  sceneEls.forEach(s => s.classList.toggle('active', s.id === `scene-${key}`));
+  captionH.textContent = scenes[key].title;
+  captionP.textContent = scenes[key].body;
+  actionBtn.textContent = scenes[key].action;
+}
+
+featureBtns.forEach(btn => {
+  btn.addEventListener('click', () => setScene(btn.dataset.scene));
+});
+
+function log(id, text, cls='') {
+  const el = document.getElementById(id);
   const span = document.createElement('span');
   span.className = `line ${cls}`;
   span.textContent = text;
-  phoneLog.appendChild(span);
-  phoneLog.scrollTop = phoneLog.scrollHeight;
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
 }
-function clearLog() { phoneLog.innerHTML = ''; }
+
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-function selectCapability(key) {
-  activeKey = key;
-  capabilityBtns.forEach(b => b.classList.toggle('active', b.dataset.key === key));
-  const c = capabilities[key];
-  stageLabel.textContent = c.label;
-  stageTitle.textContent = c.title;
-  stageDesc.textContent = c.desc;
-  clearLog();
-  log('Ready. Press "Run simulation" to start.', 'safe');
-  running = false;
-  runBtn.textContent = 'Run simulation';
-  runBtn.disabled = false;
+const dpiFlows = [
+  { name: 'api.example.com', safe: true, note: 'TLS 1.3 ✓' },
+  { name: 'analytics-tracker.net', safe: false, note: 'tracker blocked' },
+  { name: 'banking.example.com', safe: true, note: 'HTTPS pinned' },
+  { name: 'leaky-sdk.com', safe: false, note: 'PII exfil detected' }
+];
+
+async function runDpi() {
+  const rows = document.getElementById('dpi-rows');
+  const logEl = document.getElementById('dpi-log');
+  rows.innerHTML = '';
+  logEl.innerHTML = '';
+  let pkts=0, blocked=0, pii=0;
+  document.getElementById('dpi-pkts').textContent = '0';
+  document.getElementById('dpi-blocked').textContent = '0';
+  document.getElementById('dpi-pii').textContent = '0';
+  log('dpi-log', 'VPN tunnel active on-device...');
+
+  for (const flow of dpiFlows) {
+    await sleep(600);
+    pkts += Math.floor(Math.random()*40)+10;
+    const row = document.createElement('div');
+    row.className = 'card-row';
+    row.innerHTML = `\u003cspan\u003e${flow.name}\u003cbr\u003e\u003cspan style="color:var(--slate-light);font-size:0.7rem;"\u003e${flow.note}\u003c/span\u003e\u003c/span\u003e\u003cspan class="status-dot ${flow.safe ? 'safe' : 'warn'}"\u003e\u003c/span\u003e`;
+    rows.appendChild(row);
+    document.getElementById('dpi-pkts').textContent = pkts;
+    if (!flow.safe) {
+      blocked++;
+      if (flow.note.includes('PII')) pii++;
+      document.getElementById('dpi-blocked').textContent = blocked;
+      document.getElementById('dpi-pii').textContent = pii;
+    }
+    log('dpi-log', `${flow.safe ? 'ALLOW' : 'BLOCK'} ${flow.name} → ${flow.note}`, flow.safe ? 'safe' : 'warn');
+  }
+  await sleep(400);
+  log('dpi-log', 'Report written to encrypted vault.', 'safe');
 }
 
-async function runActive() {
-  if (running) return;
-  running = true;
-  runBtn.disabled = true;
-  runBtn.textContent = 'Running...';
-  clearLog();
-  await capabilities[activeKey].run();
-  running = false;
-  runBtn.disabled = false;
-  runBtn.textContent = 'Run again';
+const phishSamples = [
+  { text: 'Your package is waiting. Track at http://fake-delivery.xyz/abc123', bad: true },
+  { text: 'Bank alert: confirm your account at http://secure-bank.example.com/login', bad: false },
+  { text: 'Free gift! Claim now at http://win-now.cc/prize', bad: true }
+];
+let phishIdx = 0;
+
+async function runPhish() {
+  const msgEl = document.getElementById('phish-msg');
+  const logEl = document.getElementById('phish-log');
+  logEl.innerHTML = '';
+  const sample = phishSamples[phishIdx % phishSamples.length];
+  phishIdx++;
+  msgEl.innerHTML = `\u003cstrong\u003eIncoming SMS\u003c/strong\u003e\u003cbr\u003e${sample.text}`;
+  log('phish-log', 'Message received...');
+  await sleep(500);
+  log('phish-log', 'Extracting URLs with on-device parser...');
+  await sleep(600);
+  const url = sample.text.match(/https?:\/\/[^\s]+/)[0];
+  log('phish-log', `URL: ${url}`);
+  await sleep(600);
+  log('phish-log', 'Running local ML classifier...');
+  await sleep(700);
+  if (sample.bad) {
+    msgEl.innerHTML += `\u003cbr\u003e\u003cspan style="color:var(--bronze-bright);font-weight:600;"\u003e⚠ Phishing link blocked\u003c/span\u003e`;
+    log('phish-log', 'Result: PHISHING — link quarantined.', 'warn');
+  } else {
+    log('phish-log', 'Result: SAFE — link allowed.', 'safe');
+  }
 }
 
-capabilityBtns.forEach(btn => {
-  btn.addEventListener('click', () => selectCapability(btn.dataset.key));
-});
-runBtn.addEventListener('click', runActive);
+const swApps = [
+  { name: 'Calculator', perms: 'basic', flag: false },
+  { name: 'Flashlight Pro', perms: 'camera, mic, location', flag: true },
+  { name: 'Messages', perms: 'SMS', flag: false },
+  { name: 'Unknown Helper', perms: 'camera, mic, contacts, location', flag: true }
+];
+
+async function runSw() {
+  const rows = document.getElementById('sw-rows');
+  const logEl = document.getElementById('sw-log');
+  rows.innerHTML = '';
+  logEl.innerHTML = '';
+  let scanned=0, flags=0;
+  document.getElementById('sw-apps').textContent = '0';
+  document.getElementById('sw-flags').textContent = '0';
+  log('sw-log', 'Signature database current: 2026-11-17...');
+
+  for (const app of swApps) {
+    await sleep(500);
+    scanned++;
+    const row = document.createElement('div');
+    row.className = 'card-row';
+    row.innerHTML = `\u003cspan\u003e${app.name}\u003cbr\u003e\u003cspan style="color:var(--slate-light);font-size:0.7rem;"\u003e${app.perms}\u003c/span\u003e\u003c/span\u003e\u003cspan class="status-dot ${app.flag ? 'warn' : 'safe'}"\u003e\u003c/span\u003e`;
+    rows.appendChild(row);
+    document.getElementById('sw-apps').textContent = scanned;
+    if (app.flag) {
+      flags++;
+      document.getElementById('sw-flags').textContent = flags;
+      log('sw-log', `FLAG ${app.name}: excessive permissions`, 'warn');
+    } else {
+      log('sw-log', `OK ${app.name}`, 'safe');
+    }
+  }
+  await sleep(400);
+  log('sw-log', 'Scan complete. No data uploaded.', 'safe');
+}
+
+async function runCrypto() {
+  const flow = document.getElementById('crypto-flow');
+  const logEl = document.getElementById('crypto-log');
+  logEl.innerHTML = '';
+  document.getElementById('crypto-files').textContent = '0';
+  log('crypto-log', 'Hardware-backed key generation ready...');
+  await sleep(500);
+  flow.innerHTML = 'Plaintext → AES-256-GCM → Keystore\u003cbr\u003eKey ID: egk-7a3f...';
+  log('crypto-log', 'Key egk-7a3f retrieved from StrongBox...');
+  await sleep(600);
+  flow.innerHTML += '\u003cbr\u003eNonce: a9e21b... | Tag: verified';
+  log('crypto-log', 'Encrypting sample security report...');
+  await sleep(600);
+  document.getElementById('crypto-files').textContent = '1';
+  flow.innerHTML += '\u003cbr\u003eCiphertext: [32 bytes sealed]';
+  log('crypto-log', 'Encryption complete. Key never left device.', 'safe');
+}
+
+async function runGov() {
+  const status = document.getElementById('gov-status');
+  const logEl = document.getElementById('gov-log');
+  logEl.innerHTML = '';
+  status.textContent = 'Operation requested by operator_42. Awaiting cybersec_agent review...';
+  log('gov-log', 'Operator submitted operation request.');
+  await sleep(700);
+  log('gov-log', 'SHA3-256 entry: a1b2c3d4...');
+  await sleep(700);
+  log('gov-log', 'cybersec_agent reviewing risk assessment...');
+  await sleep(900);
+  status.innerHTML = '\u003cspan style="color:var(--success);font-weight:600;"\u003e✓ Approved by both parties\u003c/span\u003e\u003cbr\u003eOperation logged and timestamped.';
+  log('gov-log', 'APPROVED — dual sign-off complete.', 'safe');
+  await sleep(400);
+  log('gov-log', 'Evidence sealed into Merkle-linked chain.', 'safe');
+}
+
+const runners = { dpi: runDpi, phishing: runPhish, stalkerware: runSw, crypto: runCrypto, governance: runGov };
 
 const nav = document.getElementById('nav');
 const progress = document.getElementById('scrollProgress');
@@ -454,8 +596,6 @@ window.addEventListener('scroll', () => {
   const h = document.documentElement.scrollHeight - window.innerHeight;
   progress.style.width = (window.scrollY / h * 100) + '%';
 });
-
-selectCapability('dpi');
 </script>
 
 </body>
