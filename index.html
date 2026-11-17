@@ -3,177 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embergard — Your AI Security Companion</title>
-    <meta name="description" content="Embergard is an on-device AI security app for Android. Deep packet inspection, phishing detection, stalkerware scanning — all processed locally. No cloud, no tracking, no data sales.">
-    <meta name="theme-color" content="#0F172A">
+    <title>Embergard — On-Device Security · Aethel Guard</title>
+    <meta name="description" content="Embergard is an on-device security app for Android. Deep packet inspection, phishing detection, stalkerware scanning — all processed locally. No cloud, no tracking, no data sales.">
+    <meta name="theme-color" content="#0A0D14">
     <link rel="canonical" href="https://embergard.app/">
-    <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --navy: #0F172A;
-            --navy-2: #131C31;
-            --navy-3: #1A2642;
-            --navy-4: #213055;
-            --ember: #F59E0B;
-            --ember-light: #FBBF24;
-            --ember-dark: #D97706;
-            --ember-glow: rgba(245, 158, 11, 0.15);
-            --ember-line: rgba(245, 158, 11, 0.25);
-            --light: #E5E7EB;
-            --light-70: rgba(229, 231, 235, 0.7);
-            --light-50: rgba(229, 231, 235, 0.5);
-            --light-30: rgba(229, 231, 235, 0.3);
-            --slate: #64748B;
-            --slate-light: #94A3B8;
-            --success: #22C55E;
-            --grid-line: rgba(148, 163, 184, 0.03);
+            --ink: #0A0D14;
+            --ink-2: #0F1320;
+            --ink-3: #161B2E;
+            --ink-4: #1C2238;
+            --bronze: #B8956A;
+            --bronze-bright: #D4AF7A;
+            --bronze-glow: rgba(184, 149, 106, 0.15);
+            --bronze-line: rgba(184, 149, 106, 0.25);
+            --bone: #F5F1E8;
+            --bone-70: rgba(245, 241, 232, 0.7);
+            --bone-50: rgba(245, 241, 232, 0.5);
+            --bone-30: rgba(245, 241, 232, 0.3);
+            --slate: #3A4252;
+            --slate-light: #6B7588;
+            --grid-line: rgba(100, 140, 200, 0.025);
             --f-display: 'Fraunces', 'Cormorant Garamond', serif;
             --f-body: 'DM Sans', sans-serif;
             --f-mono: 'JetBrains Mono', monospace;
         }
-        *:focus-visible { outline: 2px solid var(--ember-light); outline-offset: 2px; }
+        *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
         html { scroll-behavior: smooth; }
         body {
             font-family: var(--f-body);
-            background: var(--navy);
-            color: var(--light-70);
+            background: var(--ink);
+            color: var(--bone-70);
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
         body::before {
             content: '';
-            position: fixed; inset: 0;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
             background:
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
                 linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
             background-size: 80px 80px;
-            pointer-events: none; z-index: -1;
+            pointer-events: none;
+            z-index: -1;
         }
-        a { color: var(--ember-light); text-decoration: none; }
+        a { color: var(--bronze-bright); text-decoration: none; }
         a:hover { text-decoration: underline; }
+        .mono { font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.12em; }
 
+        /* Navigation */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            display: flex; align-items: center; justify-content: space-between;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 1.25rem 2rem;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(10, 13, 20, 0.85);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+            border-bottom: 1px solid rgba(184, 149, 106, 0.1);
         }
         .nav-brand {
-            display: flex; align-items: center; gap: 0.75rem;
-            font-family: var(--f-display); font-size: 1.25rem; font-weight: 500; color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--f-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--bone);
         }
-        .nav-brand img { width: 32px; height: 32px; }
-        .nav-links a { color: var(--light-70); font-size: 0.9rem; margin-left: 1.5rem; }
-        .nav-links a:hover { color: var(--ember-light); text-decoration: none; }
+        .nav-brand .mark {
+            width: 32px; height: 32px;
+            border: 1px solid var(--bronze-line);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .nav-links a {
+            color: var(--bone-70);
+            font-size: 0.9rem;
+            margin-left: 1.5rem;
+        }
+        .nav-links a:hover { color: var(--bronze-bright); }
 
+        /* Hero */
         .hero {
             min-height: 100vh;
-            display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
             padding: 8rem 2rem 4rem;
-            max-width: 1100px; margin: 0 auto;
+            max-width: 1100px;
+            margin: 0 auto;
             position: relative;
         }
         .hero::after {
-            content: ''; position: absolute; top: 15%; right: -15%;
+            content: '';
+            position: absolute;
+            top: 20%; right: -10%;
             width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--ember-glow) 0%, transparent 70%);
-            pointer-events: none; z-index: -1;
-        }
-        .hero-logo {
-            width: 80px; height: 80px; margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 40px rgba(245,158,11,0.25));
+            background: radial-gradient(circle, var(--bronze-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
         }
         .eyebrow {
-            font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ember);
-            margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+            font-family: var(--f-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--ember-line); }
+        .eyebrow::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--bronze-line);
+        }
         .hero h1 {
-            font-family: var(--f-display); font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 400; line-height: 1.05; color: var(--light); margin-bottom: 1rem;
+            font-family: var(--f-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--bone);
+            margin-bottom: 1.5rem;
         }
-        .hero h1 em { font-style: italic; color: var(--ember-light); }
-        .hero .tagline {
-            font-family: var(--f-display); font-size: clamp(1.4rem, 3vw, 2rem);
-            color: var(--ember-light); margin-bottom: 1.5rem; font-weight: 400;
+        .hero h1 em {
+            font-style: italic;
+            color: var(--bronze-bright);
         }
-        .hero .lead { font-size: 1.25rem; max-width: 620px; margin-bottom: 2rem; }
-        .values-bar {
-            display: flex; flex-wrap: wrap; gap: 1.5rem;
-            font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-            color: var(--slate-light); margin-bottom: 2.5rem;
+        .hero .lead {
+            font-size: 1.35rem;
+            max-width: 620px;
+            margin-bottom: 2rem;
         }
-        .values-bar span { display: flex; align-items: center; gap: 0.5rem; }
-        .values-bar span::before { content: '◆'; color: var(--ember); font-size: 0.5rem; }
-        .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .badge-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--bronze-line);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--bronze-bright);
+        }
+        .cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
         .btn {
-            padding: 0.9rem 1.6rem; border-radius: 6px;
-            font-size: 0.95rem; font-weight: 500; text-decoration: none;
-            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.9rem 1.6rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .btn-primary { background: var(--ember); color: var(--navy); }
-        .btn-primary:hover { background: var(--ember-light); text-decoration: none; }
-        .btn-secondary { background: transparent; color: var(--light); border: 1px solid var(--light-30); }
-        .btn-secondary:hover { border-color: var(--ember-light); color: var(--ember-light); text-decoration: none; }
+        .btn-primary {
+            background: var(--bronze);
+            color: var(--ink);
+        }
+        .btn-primary:hover {
+            background: var(--bronze-bright);
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--bone);
+            border: 1px solid var(--bone-30);
+        }
+        .btn-secondary:hover {
+            border-color: var(--bronze-bright);
+            color: var(--bronze-bright);
+            text-decoration: none;
+        }
 
-        section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
-        .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
         .section-label {
-            font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.15em;
-            color: var(--ember); white-space: nowrap;
+            font-family: var(--f-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--bronze);
+            white-space: nowrap;
         }
         .section-title {
-            font-family: var(--f-display); font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400; color: var(--light); line-height: 1.1;
+            font-family: var(--f-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: var(--bone);
+            line-height: 1.1;
         }
 
+        /* Features */
         .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
         .feature {
-            background: var(--navy-2); border: 1px solid rgba(229, 231, 235, 0.08);
-            border-radius: 8px; padding: 2rem; transition: border-color 0.2s, transform 0.2s;
+            background: var(--ink-2);
+            border: 1px solid rgba(245, 241, 232, 0.08);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: border-color 0.2s, transform 0.2s;
         }
-        .feature:hover { border-color: var(--ember-line); transform: translateY(-2px); }
+        .feature:hover {
+            border-color: var(--bronze-line);
+            transform: translateY(-2px);
+        }
         .feature .icon {
-            width: 44px; height: 44px;
-            border: 1px solid var(--ember-line); border-radius: 8px;
+            width: 40px; height: 40px;
+            border: 1px solid var(--bronze-line);
+            border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.25rem; margin-bottom: 1.25rem;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
         }
-        .feature h3 { font-family: var(--f-display); font-size: 1.3rem; color: var(--light); margin-bottom: 0.5rem; }
-        .feature p { color: var(--light-70); font-size: 0.95rem; }
+        .feature h3 {
+            font-family: var(--f-display);
+            font-size: 1.3rem;
+            color: var(--bone);
+            margin-bottom: 0.5rem;
+        }
+        .feature p { color: var(--bone-70); font-size: 0.95rem; }
 
+        /* Privacy */
         .privacy {
-            background: var(--navy-2);
-            border-top: 1px solid rgba(229, 231, 235, 0.08);
-            border-bottom: 1px solid rgba(229, 231, 235, 0.08);
+            background: var(--ink-2);
+            border-top: 1px solid rgba(245, 241, 232, 0.08);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.08);
         }
-        .privacy .inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+        .privacy .inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
         .privacy h2 {
-            font-family: var(--f-display); font-size: clamp(1.8rem, 4vw, 2.6rem);
-            color: var(--light); margin-bottom: 1rem;
+            font-family: var(--f-display);
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            color: var(--bone);
+            margin-bottom: 1rem;
         }
-        .privacy > .inner > p { max-width: 560px; font-size: 1.1rem; margin-bottom: 2.5rem; }
-        .privacy-points { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-        .privacy-point { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; }
-        .privacy-point .check { color: var(--ember-light); font-weight: 600; }
+        .privacy > .inner > p {
+            max-width: 560px;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+        .privacy-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .privacy-point {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+        }
+        .privacy-point .check {
+            color: var(--bronze-bright);
+            font-weight: 600;
+        }
 
+        /* Footer */
         footer {
-            max-width: 1100px; margin: 0 auto; padding: 3rem 2rem;
-            text-align: center; font-size: 0.85rem; color: var(--slate);
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--slate-light);
         }
-        footer .parent { color: var(--slate-light); margin-bottom: 0.25rem; }
         footer p { margin-bottom: 0.5rem; }
-        footer a { color: var(--light-50); margin: 0 0.5rem; }
-        footer a:hover { color: var(--ember-light); }
+        footer a { color: var(--bone-50); margin: 0 0.5rem; }
+        footer a:hover { color: var(--bronze-bright); }
 
         @media (max-width: 700px) {
             nav { padding: 1rem; }
@@ -188,28 +320,25 @@
 <body>
 
 <nav>
-    <a href="/" class="nav-brand">
-        <img src="assets/img/logo.svg" alt="Embergard">
-        <span>Embergard</span>
+    <a href="https://aethel-guard.com" class="nav-brand">
+        <span class="mark">◆</span>
+        <span>Aethel Guard</span>
     </a>
     <div class="nav-links">
-        <a href="/features">How it works</a>
-        <a href="#features">Features</a>
-        <a href="/privacy">Privacy</a>
+        <a href="/features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/privacy">Policy</a>
     </div>
 </nav>
 
 <header class="hero">
-    <img src="assets/img/logo.svg" alt="" class="hero-logo">
-    <div class="eyebrow">Android · On-device AI · Zero-cloud</div>
-    <h1>Embergard.<br><em>Your AI Security Companion.</em></h1>
-    <p class="tagline">On-device security that never sends your data anywhere.</p>
-    <p class="lead">Deep packet inspection, phishing detection, and stalkerware scanning — all processed locally by AI on your Android device. No cloud, no tracking, no data sales.</p>
-    <div class="values-bar">
-        <span>Privacy</span>
-        <span>Intelligence</span>
-        <span>Protection</span>
-        <span>Freedom</span>
+    <div class="eyebrow">Android · On-Device · Zero-Cloud</div>
+    <h1>Embergard.<br><em>Your phone. Your data.</em></h1>
+    <p class="lead">On-device security that never sends your data anywhere. Deep packet inspection, phishing detection, and stalkerware scanning — all processed locally on Android.</p>
+    <div class="badge-row">
+        <span class="badge">No cloud servers</span>
+        <span class="badge">No tracking</span>
+        <span class="badge">No data sales</span>
     </div>
     <div class="cta">
         <a href="/features" class="btn btn-primary">See how it works</a>
@@ -220,7 +349,7 @@
 <section id="features">
     <div class="section-header">
         <span class="section-label">EG-01 / Capabilities</span>
-        <h2 class="section-title">What Emberguard does.</h2>
+        <h2 class="section-title">What Embergard does.</h2>
     </div>
     <div class="features-grid">
         <div class="feature">
@@ -230,7 +359,7 @@
         </div>
         <div class="feature">
             <div class="icon">🎣</div>
-            <h3>AI Phishing Detection</h3>
+            <h3>Phishing Detection</h3>
             <p>Scans SMS, notifications, and URLs for phishing attempts using on-device ML. No content ever leaves your phone.</p>
         </div>
         <div class="feature">
@@ -264,22 +393,21 @@
         </div>
         <p>No cloud servers. No analytics. No tracking. No ad SDKs. Everything runs locally.</p>
         <div class="privacy-points">
-            <div class="privacy-point"><span class="check">◆</span> On-device only</div>
-            <div class="privacy-point"><span class="check">◆</span> No PII retention</div>
-            <div class="privacy-point"><span class="check">◆</span> No third-party sharing</div>
-            <div class="privacy-point"><span class="check">◆</span> No advertising</div>
-            <div class="privacy-point"><span class="check">◆</span> Open source encryption</div>
+            <div class="privacy-point"><span class="check">✦</span> On-device only</div>
+            <div class="privacy-point"><span class="check">✦</span> No PII retention</div>
+            <div class="privacy-point"><span class="check">✦</span> No third-party sharing</div>
+            <div class="privacy-point"><span class="check">✦</span> No advertising</div>
+            <div class="privacy-point"><span class="check">✦</span> Open source encryption</div>
         </div>
     </div>
 </section>
 
 <footer>
-    <p class="parent">An Aethel Guard company</p>
-    <p>© 2026 Embergard · A Safer Tomorrow</p>
+    <p>© 2026 Embergard · Aethel Guard</p>
     <p>
-        <a href="/">Home</a> ·
-        <a href="/features">How it works</a> ·
-        <a href="/privacy">Privacy</a> ·
+        <a href="/privacy">Privacy Policy</a> ·
+        <a href="/terms">Terms of Use</a> ·
+        <a href="https://github.com/Aethel-Guard">GitHub</a> ·
         <a href="https://aethel-guard.com">Aethel Guard</a>
     </p>
 </footer>
