@@ -64,7 +64,7 @@
     }
     nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.85); }
     .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .nav-brand img { width: 32px; height: 32px; }
+    .nav-brand svg, .nav-brand img { width: 32px; height: 32px; flex-shrink: 0; }
     .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
     .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
@@ -230,7 +230,46 @@
 
 <nav id="nav">
   <a href="/" class="nav-brand">
-    <img src="../assets/img/logo-mark.svg" alt="Embergard">
+    <svg class="nav-mark" viewBox="0 0 260 260" width="32" height="32" aria-label="Embergard">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop stop-color="#fff4b0"/>
+          <stop offset=".22" stop-color="#ffd66f"/>
+          <stop offset=".52" stop-color="#e6a32d"/>
+          <stop offset=".78" stop-color="#ffdc78"/>
+          <stop offset="1" stop-color="#8c4c08"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
+          <stop stop-color="#ffe88d"/>
+          <stop offset=".35" stop-color="#e4a02a"/>
+          <stop offset=".72" stop-color="#ffc859"/>
+          <stop offset="1" stop-color="#925009"/>
+        </linearGradient>
+        <radialGradient id="gs">
+          <stop stop-color="#fffde8"/>
+          <stop offset=".25" stop-color="#ffe087"/>
+          <stop offset=".65" stop-color="#f2ad2f"/>
+          <stop offset="1" stop-color="#b76d0b"/>
+        </radialGradient>
+        <filter id="glow" x="-0.12352941" y="-0.12537313" width="1.2470588" height="1.2507463">
+          <feGaussianBlur stdDeviation="3.5" result="b"/>
+          <feMerge>
+            <feMergeNode in="b"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform="translate(34 14)">
+        <path d="M124 4 C121 34 105 58 82 77 C59 96 40 113 35 139 C31 160 36 181 49 198 C42 170 50 145 70 126 C91 106 119 94 130 68 C139 47 136 25 124 4Z" fill="url(#g1)"/>
+        <path d="M119 31 C108 55 89 72 67 89 C48 104 36 123 35 142 C38 121 54 108 76 96 C100 82 117 61 119 31Z" fill="#fff0a1" opacity=".68"/>
+        <path d="M137 53 C174 72 198 104 199 140 C200 180 176 207 132 235 C147 204 150 178 140 153 C168 134 184 110 179 87 C171 73 157 62 137 53Z" fill="url(#g2)"/>
+        <path d="M175 83 C193 112 190 145 172 170 C164 181 153 192 139 202 C148 179 148 159 140 141 C160 126 174 107 175 83Z" fill="#8c4c08" opacity=".72"/>
+        <path d="M126 79 C113 98 90 108 72 122 C51 138 44 159 51 181 C59 204 82 220 132 235 C111 215 98 197 94 180 C89 158 98 141 119 128 C138 116 146 94 137 53 C136 64 132 73 126 79Z" fill="url(#g1)"/>
+        <path d="M52 178 C64 204 86 221 132 235 L132 196 C116 187 105 174 95 158 C86 183 70 189 52 178Z" fill="url(#g2)"/>
+        <path d="M132 235 C169 211 189 188 198 158 C181 183 160 193 132 196Z" fill="url(#g1)"/>
+        <path d="M132 109 L139 135 L166 142 L139 149 L132 176 L125 149 L98 142 L125 135Z" fill="url(#gs)" filter="url(#glow)"/>
+      </g>
+    </svg>
     <span class="nav-name">Ember<em>gard</em>.</span>
   </a>
   <div class="nav-links">
