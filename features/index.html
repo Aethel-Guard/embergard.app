@@ -142,7 +142,7 @@
     .feature p { color: var(--bone-70); font-size: 0.95rem; margin-bottom: 1.25rem; }
     .sim-window {
       background: var(--ink-3); border: 1px solid rgba(245,241,232,0.08);
-      border-radius: 8px; padding: 0.75rem; margin-top: auto;
+      border-radius: 8px; padding: 0.75rem; margin-top: auto; margin-bottom: 0.75rem;
       font-family: var(--f-mono); font-size: 0.65rem; color: var(--slate-light);
       min-height: 80px; max-height: 120px; overflow: hidden;
       line-height: 1.8;
@@ -150,6 +150,10 @@
     .sim-window .line { display: block; opacity: 0; animation: fadeIn 0.3s forwards; }
     .sim-window .safe { color: var(--success); }
     .sim-window .warn { color: var(--bronze-bright); }
+    .sim-window:empty::before {
+      content: 'Click the button above to run a live on-device simulation.';
+      color: var(--slate-light); font-style: italic;
+    }
     .sim-trigger {
       margin-top: 0.75rem; display: inline-flex; align-items: center; gap: 0.4rem;
       background: transparent; color: var(--bronze-bright); border: 1px solid var(--bronze-line);
@@ -337,12 +341,17 @@
   </div>
 
   <div class="demo-stage" id="demoStage" style="display:none;">
-    <h3 id="demoTitle">Live Simulation</h3>
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <span class="section-label">EG-04.2 / Live Simulation</span>
+      <h2 class="section-title" id="demoTitle">Deep Packet Inspection</h2>
+    </div>
     <div class="phone">
       <div class="notch"></div>
       <div class="screen">
         <div class="app-title">Embergard · On-Device</div>
-        <div class="demo-log" id="demoLog"></div>
+        <div class="demo-log" id="demoLog">
+          <span class="line">Tap a capability card above to run a live simulation.</span>
+        </div>
       </div>
     </div>
     <div class="btn-row" style="justify-content:center;">
@@ -474,33 +483,30 @@ const scenarios = {
   }
 };
 
-let currentScenario = null;
+document.querySelectorAll('.sim-trigger').forEach(btn => {
+  btn.addEventListener('click', () => {
+    runScenario(btn.dataset.run);
+  });
+});
+
 async function runScenario(key) {
   currentScenario = key;
   const s = scenarios[key];
   document.getElementById('demoTitle').textContent = s.title;
-  document.getElementById('demoStage').style.display = 'block';
-  document.getElementById('demoStage').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const stage = document.getElementById('demoStage');
+  stage.style.display = 'block';
+  stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  clear('demoLog');
+  log('demoLog', 'Initialising simulation...');
   await s.run();
 }
 
-function runMini(key) {
-  const el = document.getElementById(`${key}-window`);
-  if (!el) return;
-  el.innerHTML = '';
-  const span = document.createElement('span');
-  span.className = 'line safe';
-  span.textContent = 'Running simulation...';
-  el.appendChild(span);
-  setTimeout(() => { el.innerHTML = ''; runScenario(key); }, 300);
-}
+// Optional: mini preview also triggers the full stage
+function runMini(key) { runScenario(key); }
 
-document.querySelectorAll('.sim-trigger').forEach(btn => {
-  btn.addEventListener('click', () => runMini(btn.dataset.run));
-});
-
+let currentScenario = null;
 document.getElementById('replayBtn').addEventListener('click', () => {
-  if (currentScenario) scenarios[currentScenario].run();
+  if (currentScenario) runScenario(currentScenario);
 });
 
 const nav = document.getElementById('nav');
