@@ -48,6 +48,12 @@
     a { color: var(--bronze-bright); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--bronze); z-index: 9999; width: 0%;
+      transition: width 0.1s linear;
+    }
+
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       padding: 24px 56px; display: flex; justify-content: space-between; align-items: center;
@@ -86,7 +92,7 @@
     .annotation::before { content: attr(data-num); font-weight: 600; color: var(--bronze-bright); }
 
     header {
-      padding: 9rem 56px 3rem;
+      padding: 140px 56px 3rem;
       max-width: 900px; margin: 0 auto; position: relative; z-index: 2;
     }
     h1 { font-family: var(--f-display); font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 400; color: var(--bone); line-height: 1.1; margin-bottom: 0.75rem; }
@@ -128,6 +134,8 @@
   </style>
 </head>
 <body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <nav id="nav">
   <a href="/" class="nav-brand">
@@ -223,8 +231,11 @@
 
 <script>
 const nav = document.getElementById('nav');
+const progress = document.getElementById('scrollProgress');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (window.scrollY / h * 100) + '%';
 });
 </script>
 
