@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — Embergard · An Aethel Guard company</title>
+  <meta name="description" content="Get support for Embergard. Common questions, subscription help, and contact details.">
+  <meta name="theme-color" content="#0A0D14">
+  <link rel="canonical" href="https://embergard.app/support">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *:focus-visible { outline: 2px solid var(--bronze-bright); outline-offset: 2px; }
+    :root {
+      --ink: #0A0D14; --ink-2: #0F1320; --ink-3: #161B2E; --ink-4: #1C2238;
+      --bronze: #B8956A; --bronze-bright: #D4AF7A;
+      --bronze-glow: rgba(184, 149, 106, 0.15); --bronze-line: rgba(184, 149, 106, 0.25);
+      --bone: #F5F1E8; --bone-70: rgba(245, 241, 232, 0.7); --bone-50: rgba(245, 241, 232, 0.5); --bone-30: rgba(245, 241, 232, 0.3);
+      --slate: #3A4252; --slate-light: #6B7588;
+      --grid-line: rgba(100, 140, 200, 0.025); --grid-line-bright: rgba(100, 140, 200, 0.05);
+      --f-display: 'Fraunces', 'Cormorant Garamond', serif;
+      --f-body: 'DM Sans', sans-serif;
+      --f-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-body); background: var(--ink); color: var(--bone-70);
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 1;
+    }
+    a { color: var(--bronze-bright); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--bronze); z-index: 9999; width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 24px 56px; display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(16px) saturate(1.5);
+      background: rgba(10, 13, 20, 0.6); border-bottom: 1px solid var(--bronze-line);
+      transition: padding 0.3s ease, background 0.3s ease;
+    }
+    nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.85); }
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-brand svg, .nav-brand img { width: 32px; height: 32px; flex-shrink: 0; }
+    .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
+    .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--bone-50); text-decoration: none; font-size: 12px;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 1px; background: var(--bronze); transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .annotation {
+      display: flex; align-items: center; gap: 16px;
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bronze); margin-bottom: 48px;
+    }
+    .annotation::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--bronze-line), transparent);
+    }
+    .annotation::before { content: attr(data-num); font-weight: 600; color: var(--bronze-bright); }
+
+    header {
+      padding: 140px 56px 3rem;
+      max-width: 900px; margin: 0 auto; position: relative; z-index: 2;
+    }
+    h1 { font-family: var(--f-display); font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 400; color: var(--bone); line-height: 1.1; margin-bottom: 0.75rem; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 0 56px 5rem; position: relative; z-index: 2; }
+    .card {
+      background: var(--ink-2); border: 1px solid rgba(229, 231, 235, 0.08);
+      border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: var(--f-display); font-size: 1.4rem;
+      color: var(--bone); margin-bottom: 0.75rem; font-weight: 500;
+    }
+    .card p, .card li { color: var(--bone-70); margin-bottom: 0.75rem; }
+    .card ul { margin-left: 1.25rem; margin-bottom: 1rem; }
+    .card li { margin-bottom: 0.5rem; }
+    .card strong { color: var(--bone); font-weight: 500; }
+    .back { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--bone-50); }
+    .back:hover { color: var(--bronze-bright); }
+
+    footer {
+      max-width: 900px; margin: 0 auto; padding: 2rem;
+      text-align: center; font-size: 0.85rem; color: var(--slate);
+      border-top: 1px solid rgba(229, 231, 235, 0.08);
+      position: relative; z-index: 2;
+    }
+    footer .parent { color: var(--slate-light); margin-bottom: 0.25rem; }
+    footer a { color: var(--bone-50); margin: 0 0.5rem; }
+    footer a:hover { color: var(--bronze-bright); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      header { padding: 7rem 24px 2rem; }
+      main { padding: 0 24px 3rem; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-brand">
+    <svg class="nav-mark" viewBox="0 0 260 260" width="32" height="32" aria-label="Embergard">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop stop-color="#fff4b0"/>
+          <stop offset=".22" stop-color="#ffd66f"/>
+          <stop offset=".52" stop-color="#e6a32d"/>
+          <stop offset=".78" stop-color="#ffdc78"/>
+          <stop offset="1" stop-color="#8c4c08"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
+          <stop stop-color="#ffe88d"/>
+          <stop offset=".35" stop-color="#e4a02a"/>
+          <stop offset=".72" stop-color="#ffc859"/>
+          <stop offset="1" stop-color="#925009"/>
+        </linearGradient>
+        <radialGradient id="gs">
+          <stop stop-color="#fffde8"/>
+          <stop offset=".25" stop-color="#ffe087"/>
+          <stop offset=".65" stop-color="#f2ad2f"/>
+          <stop offset="1" stop-color="#b76d0b"/>
+        </radialGradient>
+        <filter id="glow" x="-0.12352941" y="-0.12537313" width="1.2470588" height="1.2507463">
+          <feGaussianBlur stdDeviation="3.5" result="b"/>
+          <feMerge>
+            <feMergeNode in="b"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform="translate(34 14)">
+        <path d="M124 4 C121 34 105 58 82 77 C59 96 40 113 35 139 C31 160 36 181 49 198 C42 170 50 145 70 126 C91 106 119 94 130 68 C139 47 136 25 124 4Z" fill="url(#g1)"/>
+        <path d="M119 31 C108 55 89 72 67 89 C48 104 36 123 35 142 C38 121 54 108 76 96 C100 82 117 61 119 31Z" fill="#fff0a1" opacity=".68"/>
+        <path d="M137 53 C174 72 198 104 199 140 C200 180 176 207 132 235 C147 204 150 178 140 153 C168 134 184 110 179 87 C171 73 157 62 137 53Z" fill="url(#g2)"/>
+        <path d="M175 83 C193 112 190 145 172 170 C164 181 153 192 139 202 C148 179 148 159 140 141 C160 126 174 107 175 83Z" fill="#8c4c08" opacity=".72"/>
+        <path d="M126 79 C113 98 90 108 72 122 C51 138 44 159 51 181 C59 204 82 220 132 235 C111 215 98 197 94 180 C89 158 98 141 119 128 C138 116 146 94 137 53 C136 64 132 73 126 79Z" fill="url(#g1)"/>
+        <path d="M52 178 C64 204 86 221 132 235 L132 196 C116 187 105 174 95 158 C86 183 70 189 52 178Z" fill="url(#g2)"/>
+        <path d="M132 235 C169 211 189 188 198 158 C181 183 160 193 132 196Z" fill="url(#g1)"/>
+        <path d="M132 109 L139 135 L166 142 L139 149 L132 176 L125 149 L98 142 L125 135Z" fill="url(#gs)" filter="url(#glow)"/>
+      </g>
+    </svg>
+    <span class="nav-name">Ember<em>gard</em>.</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/demo">How it works</a>
+    <a href="/privacy">Privacy</a>
+  </div>
+</nav>
+
+<header>
+  <div class="annotation" data-num="EG-SUP-01">Support</div>
+  <h1>Support.</h1>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Common questions</h2>
+    <ul>
+      <li><strong>Is my data sent to the cloud?</strong> No. All scanning, analysis, and chat happen on your device.</li>
+      <li><strong>How do I cancel my subscription?</strong> Cancel through Google Play → Subscriptions.</li>
+      <li><strong>What does the Personal subscription include?</strong> Unlimited scans, unlimited AI chat, continuous auto-scanning, AI threat detection, deepfake detection, emergency key rotation, and Selene Shield — for one device.</li>
+      <li><strong>Why does the app request VPN permission?</strong> The VPN is an on-device loopback used for deep-packet inspection and traffic analysis. Your traffic is not routed to external servers.</li>
+      <li><strong>How do I delete my data?</strong> Uninstall the app or clear its storage in Android Settings. See <a href="/delete-data">Delete Your Data</a>.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Contact us</h2>
+    <p>Email: <a href="mailto:support@aethel-guard.com">support@aethel-guard.com</a></p>
+    <p>GitHub issues: <a href="https://github.com/Aethel-Guard/Embergard-app/issues">https://github.com/Aethel-Guard/Embergard-app/issues</a></p>
+  </div>
+
+  <a href="/" class="back">← Back to Embergard</a>
+</main>
+
+<footer>
+  <p class="parent">An Aethel Guard company</p>
+  <p>© 2026 Embergard · A Safer Tomorrow</p>
+  <p>
+    <a href="/">Home</a> ·
+    <a href="/terms">Terms</a> ·
+    <a href="/privacy">Privacy</a> ·
+    <a href="/support">Support</a> ·
+    <a href="https://aethel-guard.com">Aethel Guard</a>
+  </p>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+const progress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (window.scrollY / h * 100) + '%';
+});
+</script>
+
+</body>
+</html>
