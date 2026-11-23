@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embergard — On-Device Security</title>
-  <meta name="description" content="Embergard is an on-device security app for Android. Deep packet inspection, phishing detection, stalkerware scanning — all processed locally. No cloud, no tracking, no data sales.">
+  <title>Embergard — On-Device Security for Android</title>
+  <meta name="description" content="Embergard is an on-device security app for Android. Deep packet inspection, phishing detection, stalkerware scanning and private AI — all processed locally. No cloud, no tracking, no data sales.">
   <meta name="theme-color" content="#0A0D14">
   <link rel="canonical" href="https://embergard.app/">
   <link rel="icon" type="image/svg+xml" href="assets/img/logo-mark.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-mark.svg">
+  <meta property="og:title" content="Embergard — On-Device Security for Android">
+  <meta property="og:description" content="Security that never sends your data anywhere. DPI, phishing detection, stalkerware scanning and private AI — all on-device.">
+  <meta property="og:url" content="https://embergard.app/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -81,12 +86,12 @@
       border-bottom: 1px solid var(--bronze-line);
       transition: padding 0.3s ease, background 0.3s ease;
     }
-    nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.85); }
+    nav.scrolled { padding: 16px 56px; background: rgba(10, 13, 20, 0.9); }
     .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
     .nav-brand svg, .nav-brand img { width: 32px; height: 32px; flex-shrink: 0; }
     .nav-name { font-family: var(--f-display); font-size: 20px; font-weight: 500; color: var(--bone); letter-spacing: 0.02em; }
     .nav-name em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
     .nav-links a {
       color: var(--bone-50); text-decoration: none; font-size: 12px;
       font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
@@ -99,12 +104,27 @@
     }
     .nav-links a:hover { color: var(--bronze-bright); text-decoration: none; }
     .nav-links a:hover::after { width: 100%; }
+    .nav-links .btn-small {
+      padding: 0.55rem 1rem; border-radius: 6px;
+      border: 1px solid var(--bronze-line);
+      color: var(--bronze-bright); font-size: 11px;
+      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+    .nav-links .btn-small:hover {
+      background: var(--bronze); color: var(--ink); border-color: var(--bronze); text-decoration: none;
+    }
+    .nav-links .btn-small::after { display: none; }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none; color: var(--bone); cursor: pointer;
+    }
 
     .annotation {
       display: flex; align-items: center; gap: 16px;
       font-family: var(--f-mono); font-size: 11px;
       letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--bronze); margin-bottom: 48px;
+      color: var(--bronze); margin-bottom: 32px;
     }
     .annotation::after {
       content: ''; flex: 1; height: 1px;
@@ -113,54 +133,74 @@
     .annotation::before {
       content: attr(data-num); font-weight: 600; color: var(--bronze-bright);
     }
+    .annotation.no-line::after { display: none; }
 
     .hero {
       min-height: 100vh; display: flex; align-items: center;
-      position: relative; padding: 140px 56px 80px;
+      position: relative; padding: 140px 56px 100px;
       overflow: hidden; z-index: 2;
     }
     .hero-bg { position: absolute; inset: 0; z-index: 0; }
     .hero-bg::before {
       content: ''; position: absolute; top: 40%; left: 30%;
-      width: 700px; height: 700px;
+      width: 800px; height: 800px;
       background: radial-gradient(circle, var(--bronze-glow) 0%, transparent 65%);
-      filter: blur(60px); transform: translate(-50%, -50%);
+      filter: blur(80px); transform: translate(-50%, -50%);
       animation: glow-drift 20s ease-in-out infinite alternate;
     }
+    .hero-bg::after {
+      content: ''; position: absolute; top: 60%; right: 20%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(58, 66, 82, 0.25) 0%, transparent 65%);
+      filter: blur(80px); transform: translate(50%, -50%);
+      animation: glow-drift-2 25s ease-in-out infinite alternate;
+    }
     .hero-bg svg {
-      position: absolute; top: 50%; right: -120px;
+      position: absolute; top: 50%; right: -80px;
       transform: translateY(-50%);
-      width: 600px; height: 600px; opacity: 0.06;
+      width: 700px; height: 700px; opacity: 0.05;
     }
     @keyframes glow-drift { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-45%, -55%) scale(1.1); } }
-    .hero .inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+    @keyframes glow-drift-2 { from { transform: translate(50%, -50%) scale(1); } to { transform: translate(45%, -60%) scale(1.15); } }
+    .hero .inner { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
     .hero h1 {
-      font-family: var(--f-display); font-size: clamp(3rem, 7vw, 6.5rem);
+      font-family: var(--f-display); font-size: clamp(2.8rem, 6.5vw, 6rem);
       font-weight: 400; line-height: 1.05; color: var(--bone); margin-bottom: 1.5rem;
+      max-width: 850px;
     }
     .hero h1 em { font-style: italic; color: var(--bronze-bright); }
-    .hero .lead { font-size: 1.35rem; max-width: 620px; margin-bottom: 2.5rem; }
-    .badge-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero .lead { font-size: 1.25rem; max-width: 640px; margin-bottom: 2.5rem; color: var(--bone-70); }
+    .badge-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
     .badge {
       padding: 0.4rem 0.9rem; border: 1px solid var(--bronze-line);
-      border-radius: 100px; font-size: 0.8rem; color: var(--bronze-bright);
+      border-radius: 100px; font-size: 0.75rem; color: var(--bronze-bright);
+      font-weight: 500; letter-spacing: 0.04em;
     }
-    .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
     .btn {
-      padding: 0.9rem 1.6rem; border-radius: 6px;
-      font-size: 0.95rem; font-weight: 500; text-decoration: none;
+      padding: 1rem 1.8rem; border-radius: 6px;
+      font-size: 0.9rem; font-weight: 600; text-decoration: none;
       transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
     .btn-primary {
-      background: transparent; color: var(--bronze-bright);
-      border: 1px solid var(--bronze-line); text-transform: uppercase;
-      letter-spacing: 0.1em; font-size: 0.8rem; font-weight: 600;
+      background: var(--bronze); color: var(--ink);
+      border: 1px solid var(--bronze); box-shadow: 0 4px 24px rgba(184, 149, 106, 0.2);
     }
-    .btn-primary:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); text-decoration: none; }
+    .btn-primary:hover { background: var(--bronze-bright); border-color: var(--bronze-bright); text-decoration: none; }
     .btn-secondary {
       background: transparent; color: var(--bone); border: 1px solid var(--bone-30);
     }
     .btn-secondary:hover { border-color: var(--bronze-bright); color: var(--bronze-bright); text-decoration: none; }
+
+    .trust-row {
+      margin-top: 4rem; display: flex; flex-wrap: wrap; gap: 2.5rem;
+      align-items: center; opacity: 0.7;
+    }
+    .trust-row span {
+      font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--slate-light);
+    }
 
     section { padding: 7rem 56px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
     .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
@@ -172,53 +212,154 @@
       font-family: var(--f-display); font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 400; color: var(--bone); line-height: 1.1;
     }
+    .section-subtitle {
+      font-size: 1.1rem; max-width: 620px; color: var(--bone-70); margin-top: 1rem;
+    }
 
     .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;
     }
     .feature {
       background: var(--ink-2); border: 1px solid rgba(245, 241, 232, 0.08);
-      border-radius: 8px; padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
+      border-radius: 10px; padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
     }
-    .feature:hover { border-color: var(--bronze-line); transform: translateY(-2px); }
+    .feature:hover { border-color: var(--bronze-line); transform: translateY(-3px); background: var(--ink-3); }
     .feature .icon {
-      width: 40px; height: 40px; border: 1px solid var(--bronze-line);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem; margin-bottom: 1.25rem;
+      width: 44px; height: 44px; border: 1px solid var(--bronze-line);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; margin-bottom: 1.25rem;
     }
-    .feature h3 { font-family: var(--f-display); font-size: 1.3rem; color: var(--bone); margin-bottom: 0.5rem; }
+    .feature h3 { font-family: var(--f-display); font-size: 1.35rem; color: var(--bone); margin-bottom: 0.6rem; }
     .feature p { color: var(--bone-70); font-size: 0.95rem; }
 
-    .privacy-section {
+    .how-it-works {
       background: var(--ink-2);
       border-top: 1px solid rgba(245, 241, 232, 0.08);
       border-bottom: 1px solid rgba(245, 241, 232, 0.08);
     }
-    .privacy-section .inner { max-width: 1200px; margin: 0 auto; padding: 6rem 56px; position: relative; z-index: 2; }
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;
+    }
+    .step { position: relative; }
+    .step-num {
+      font-family: var(--f-mono); font-size: 0.75rem; color: var(--bronze);
+      border: 1px solid var(--bronze-line); border-radius: 100px;
+      padding: 0.2rem 0.7rem; display: inline-block; margin-bottom: 1rem;
+    }
+    .step h3 { font-family: var(--f-display); font-size: 1.3rem; color: var(--bone); margin-bottom: 0.5rem; }
+    .step p { font-size: 0.95rem; color: var(--bone-70); }
+
+    .privacy-section {
+      background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
+    }
+    .privacy-section .inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
     .privacy-section h2 { font-family: var(--f-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--bone); margin-bottom: 1rem; }
-    .privacy-section .lead { max-width: 560px; font-size: 1.1rem; margin-bottom: 2.5rem; }
-    .privacy-points { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-    .privacy-point { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; }
+    .privacy-section .lead { max-width: 620px; font-size: 1.1rem; margin-bottom: 2.5rem; }
+    .privacy-points { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .privacy-point {
+      display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem;
+      background: var(--ink-3); border: 1px solid rgba(245, 241, 232, 0.08);
+      padding: 0.7rem 1rem; border-radius: 100px;
+    }
     .privacy-point .check { color: var(--bronze-bright); font-weight: 600; }
 
-    footer {
-      max-width: 1100px; margin: 0 auto; padding: 4rem 56px 3rem;
-      text-align: center; font-size: 0.85rem; color: var(--slate-light);
-      position: relative; z-index: 2;
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
     }
-    footer p { margin-bottom: 0.5rem; }
-    footer a { color: var(--bone-50); margin: 0 0.5rem; }
-    footer a:hover { color: var(--bronze-bright); }
+    .pricing-card {
+      background: var(--ink-2); border: 1px solid rgba(245, 241, 232, 0.08);
+      border-radius: 12px; padding: 2.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pricing-card:hover { border-color: var(--bronze-line); transform: translateY(-3px); }
+    .pricing-card.featured {
+      border-color: var(--bronze-line);
+      background: linear-gradient(180deg, var(--ink-3) 0%, var(--ink-2) 100%);
+      position: relative;
+    }
+    .pricing-card.featured::before {
+      content: 'Most popular'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--bronze); color: var(--ink); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.9rem; border-radius: 0 0 6px 6px;
+    }
+    .pricing-card h3 { font-family: var(--f-display); font-size: 1.5rem; color: var(--bone); margin-bottom: 0.5rem; }
+    .pricing-card .price { font-size: 2.5rem; font-weight: 300; color: var(--bone); margin: 1rem 0; }
+    .pricing-card .price span { font-size: 0.9rem; color: var(--bone-50); font-weight: 400; }
+    .pricing-card ul { list-style: none; margin: 1.5rem 0; }
+    .pricing-card li { padding: 0.45rem 0; font-size: 0.95rem; color: var(--bone-70); display: flex; gap: 0.6rem; }
+    .pricing-card li::before { content: '✦'; color: var(--bronze-bright); }
+    .pricing-card .note { font-size: 0.8rem; color: var(--slate-light); margin-top: 1rem; }
+
+    .transparency {
+      background: var(--ink-2);
+      border-top: 1px solid rgba(245, 241, 232, 0.08);
+    }
+    .transparency .inner { max-width: 1200px; margin: 0 auto; }
+    .repo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;
+    }
+    .repo-card {
+      background: var(--ink-3); border: 1px solid rgba(245, 241, 232, 0.08);
+      border-radius: 8px; padding: 1.25rem; transition: border-color 0.2s;
+    }
+    .repo-card:hover { border-color: var(--bronze-line); }
+    .repo-card h4 { font-family: var(--f-mono); font-size: 0.85rem; color: var(--bone); margin-bottom: 0.4rem; }
+    .repo-card p { font-size: 0.85rem; color: var(--bone-70); }
+
+    .faq-list { max-width: 800px; }
+    .faq-item { border-bottom: 1px solid rgba(245, 241, 232, 0.08); padding: 1.75rem 0; }
+    .faq-item h3 { font-family: var(--f-display); font-size: 1.2rem; color: var(--bone); margin-bottom: 0.6rem; }
+    .faq-item p { font-size: 0.95rem; color: var(--bone-70); }
+
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 50%, var(--ink) 100%);
+    }
+    .cta-section h2 { font-family: var(--f-display); font-size: clamp(2rem, 4vw, 3rem); color: var(--bone); margin-bottom: 1rem; }
+    .cta-section p { font-size: 1.1rem; max-width: 560px; margin: 0 auto 2rem; color: var(--bone-70); }
+
+    footer {
+      max-width: 1200px; margin: 0 auto; padding: 5rem 56px 3rem;
+      position: relative; z-index: 2;
+      border-top: 1px solid rgba(245, 241, 232, 0.08);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 3rem;
+      margin-bottom: 3rem; text-align: left;
+    }
+    .footer-brand .nav-brand { margin-bottom: 1rem; }
+    .footer-brand p { font-size: 0.9rem; color: var(--bone-70); max-width: 300px; }
+    .footer-col h4 {
+      font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--bone); margin-bottom: 1.25rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a { color: var(--bone-70); font-size: 0.9rem; text-decoration: none; }
+    .footer-col a:hover { color: var(--bronze-bright); text-decoration: underline; }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      padding-top: 2rem; border-top: 1px solid rgba(245, 241, 232, 0.08);
+      font-size: 0.8rem; color: var(--slate-light);
+    }
 
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
       nav.scrolled { padding: 12px 24px; }
-      .nav-links { display: none; }
-      .hero { padding: 120px 24px 60px; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--ink-2); flex-direction: column; padding: 1rem 24px; border-bottom: 1px solid var(--bronze-line); gap: 1rem; }
+      .nav-links.open { display: flex; }
+      .mobile-menu-btn { display: block; }
+      .hero { padding: 120px 24px 80px; }
+      .hero-bg svg { width: 400px; height: 400px; right: -120px; opacity: 0.04; }
       section { padding: 5rem 24px; }
-      .privacy-section .inner { padding: 5rem 24px; }
-      footer { padding: 3rem 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured::before { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -227,8 +368,8 @@
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <nav id="nav">
-  <a href="/" class="nav-brand">
-    <svg class="nav-mark" viewBox="0 0 260 260" width="32" height="32" aria-label="Embergard">
+  <a href="/" class="nav-brand" aria-label="Embergard home">
+    <svg class="nav-mark" viewBox="0 0 260 260" width="32" height="32" aria-hidden="true">
       <defs>
         <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
           <stop stop-color="#fff4b0"/>
@@ -251,10 +392,7 @@
         </radialGradient>
         <filter id="glow" x="-0.12352941" y="-0.12537313" width="1.2470588" height="1.2507463">
           <feGaussianBlur stdDeviation="3.5" result="b"/>
-          <feMerge>
-            <feMergeNode in="b"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
       <g transform="translate(34 14)">
@@ -270,11 +408,19 @@
     </svg>
     <span class="nav-name">Ember<em>gard</em>.</span>
   </a>
-  <div class="nav-links">
-    <a href="/demo">How it works</a>
-    <a href="/privacy">Privacy</a>
-    
-  </div>
+  <button class="mobile-menu-btn" aria-label="Open menu" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 6h18M3 12h18M3 18h18"/>
+    </svg>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/demo">How it works</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/terms">Terms</a></li>
+    <li><a href="/support">Support</a></li>
+    <li><a class="btn-small" href="#download">Get the app</a></li>
+  </ul>
 </nav>
 
 <header class="hero">
@@ -288,16 +434,23 @@
   </div>
   <div class="inner">
     <div class="annotation" data-num="EG-01">On-Device Android Security · Zero-Cloud</div>
-    <h1>Embergard.<br><em>Your phone. Your data.</em></h1>
-    <p class="lead">On-device security that never sends your data anywhere. Deep packet inspection, phishing detection, and stalkerware scanning — all processed locally on Android.</p>
+    <h1>Security that stays on <em>your phone.</em></h1>
+    <p class="lead">Embergard is an on-device security and privacy app for Android. Deep packet inspection, phishing detection, stalkerware scanning and a private AI companion — all processed locally. No cloud. No tracking. No data sales.</p>
     <div class="badge-row">
-      <span class="badge">No cloud servers</span>
-      <span class="badge">No tracking</span>
-      <span class="badge">No data sales</span>
+      <span class="badge">100% offline</span>
+      <span class="badge">No analytics SDKs</span>
+      <span class="badge">AES-256-GCM encryption</span>
+      <span class="badge">Auditable models</span>
     </div>
     <div class="cta">
-      <a href="/demo" class="btn btn-primary">See how it works</a>
-      <a href="/privacy" class="btn btn-secondary">Privacy Policy</a>
+      <a class="btn btn-primary" href="#download">Get Embergard</a>
+      <a class="btn btn-secondary" href="/demo">See how it works</a>
+    </div>
+    <div class="trust-row">
+      <span>Backed by Aethel Guard</span>
+      <span>Pluggable GGUF models</span>
+      <span>No PII leaves device</span>
+      <span>Google Play billing</span>
     </div>
   </div>
 </header>
@@ -305,67 +458,247 @@
 <section id="features">
   <div class="section-header">
     <span class="section-label">EG-02 / Capabilities</span>
-    <h2 class="section-title">What Embergard does.</h2>
+    <h2 class="section-title">Everything runs on-device.</h2>
   </div>
   <div class="features-grid">
     <div class="feature">
       <div class="icon">🌐</div>
       <h3>Deep Packet Inspection</h3>
-      <p>Real-time VPN-based DPI monitors all network traffic. Detects PII exfiltration, cleartext HTTP, and blocked destinations — all on-device.</p>
+      <p>A local VPN inspects every packet. Detects cleartext HTTP, PII exfiltration, and suspicious destinations — without sending traffic anywhere.</p>
     </div>
     <div class="feature">
       <div class="icon">🎣</div>
       <h3>Phishing Detection</h3>
-      <p>Scans SMS, notifications, and URLs for phishing attempts using on-device ML. No content ever leaves your phone.</p>
+      <p>Scans SMS, notifications, and URLs with on-device ML. Malicious links are flagged before you tap them. Content never leaves your phone.</p>
     </div>
     <div class="feature">
       <div class="icon">👀</div>
       <h3>Stalkerware Scanning</h3>
-      <p>Detects spyware and stalkerware by analyzing app permission patterns. Identifies apps that shouldn't have access to your camera, mic, or location.</p>
+      <p>Analyzes installed apps and permission patterns to flag spyware, stalkerware, and apps with excessive access to camera, microphone, or location.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🤖</div>
+      <h3>Private AI Companion</h3>
+      <p>Ask security questions and analyse suspicious content with a local GGUF model. Fully offline by default — cloud mode is opt-in only with your own API key.</p>
     </div>
     <div class="feature">
       <div class="icon">🔐</div>
       <h3>Encrypted Storage</h3>
-      <p>All security data encrypted with AES-256-GCM via Android Keystore. Hardware-backed keys with periodic rotation.</p>
+      <p>All scan data, signatures, and settings are encrypted with AES-256-GCM via Android Keystore. Hardware-backed keys with periodic rotation.</p>
     </div>
     <div class="feature">
       <div class="icon">📱</div>
       <h3>IPv6 Ready</h3>
-      <p>Full IPv6 packet parsing with extension header support. Fail-closed design — no uninspected traffic gets through.</p>
+      <p>Full IPv6 packet parsing with extension header support. Fail-closed design means no uninspected traffic gets through.</p>
     </div>
-    <div class="feature">
-      <div class="icon">⚖️</div>
-      <h3>Dual Sign-Off Governance</h3>
-      <p>Every assessed operation requires dual sign-off (operator + cybersec agent). Full audit trail for accountability.</p>
+  </div>
+</section>
+
+<section class="how-it-works">
+  <div class="inner">
+    <div class="section-header">
+      <span class="section-label">EG-03 / How it works</span>
+      <h2 class="section-title">Simple. Local. Account-free.</h2>
+      <p class="section-subtitle">No accounts, no cloud dashboards, no waiting rooms. Install, grant permissions, and your device protects itself.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Install from Google Play</h3>
+        <p>Download the app. No account creation required. The free tier is fully functional.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3>Grant local permissions</h3>
+        <p>VPN, SMS, notification access, and storage are requested just-in-time and explained before each request.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3>Stay protected offline</h3>
+        <p>Threat detection, AI chat, and encrypted storage all run locally. Nothing is uploaded for analysis.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <h3>Upgrade if you want more</h3>
+        <p>The paid tier adds advanced VPN/DPI rules, priority scans, and expanded signature feeds. Cancel anytime.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="privacy-section" id="privacy">
   <div class="inner">
-    <div class="section-header" style="margin-bottom: 1.5rem;">
-      <span class="section-label">EG-03 / Privacy</span>
-      <h2 class="section-title">Your data never leaves your device.</h2>
+    <div class="section-header">
+      <span class="section-label">EG-04 / Privacy</span>
+      <h2 class="section-title">Your data is yours. Period.</h2>
     </div>
-    <p class="lead">No cloud servers. No analytics. No tracking. No ad SDKs. Everything runs locally.</p>
+    <p class="lead">We built Embergard so that nothing identifiable ever has to leave your device. Not your messages, not your traffic, not your files.</p>
     <div class="privacy-points">
       <div class="privacy-point"><span class="check">✦</span> On-device only</div>
-      <div class="privacy-point"><span class="check">✦</span> No PII retention</div>
-      <div class="privacy-point"><span class="check">✦</span> No third-party sharing</div>
+      <div class="privacy-point"><span class="check">✦</span> No cloud servers</div>
+      <div class="privacy-point"><span class="check">✦</span> No analytics SDKs</div>
       <div class="privacy-point"><span class="check">✦</span> No advertising</div>
-      <div class="privacy-point"><span class="check">✦</span> Open source encryption</div>
+      <div class="privacy-point"><span class="check">✦</span> No third-party sharing</div>
+      <div class="privacy-point"><span class="check">✦</span> No PII retention</div>
+      <div class="privacy-point"><span class="check">✦</span> Public encryption standards</div>
+      <div class="privacy-point"><span class="check">✦</span> Verified model hashes</div>
+    </div>
+    <div style="margin-top: 2.5rem;">
+      <a class="btn btn-secondary" href="/privacy">Read the Privacy Policy</a>
     </div>
   </div>
 </section>
 
+<section id="pricing">
+  <div class="section-header">
+    <span class="section-label">EG-05 / Pricing</span>
+    <h2 class="section-title">Pay for security. Not with your data.</h2>
+    <p class="section-subtitle">One subscription, no surprises. Cancel anytime through Google Play.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <h3>Free</h3>
+      <div class="price">€0<span>/forever</span></div>
+      <ul>
+        <li>On-device AI chat</li>
+        <li>Local malware scanning</li>
+        <li>Basic app analysis</li>
+        <li>Encrypted storage</li>
+      </ul>
+      <p class="note">Free for personal use.</p>
+    </div>
+    <div class="pricing-card featured">
+      <h3>Personal</h3>
+      <div class="price">€4.99<span>/month</span></div>
+      <ul>
+        <li>Deep packet inspection (DPI)</li>
+        <li>Advanced VPN filtering rules</li>
+        <li>Phishing detection for SMS &amp; notifications</li>
+        <li>Stalkerware scanning</li>
+        <li>Priority signature feeds</li>
+      </ul>
+      <p class="note">Billed monthly via Google Play. Cancel anytime.</p>
+    </div>
+    <div class="pricing-card">
+      <h3>Coming soon</h3>
+      <div class="price">—</div>
+      <ul>
+        <li>Family plans</li>
+        <li>Managed deployments</li>
+        <li>Samsung Knox integration</li>
+      </ul>
+      <p class="note">Enterprise options will follow.</p>
+    </div>
+  </div>
+</section>
+
+<section class="transparency">
+  <div class="inner">
+    <div class="section-header">
+      <span class="section-label">EG-06 / Transparency</span>
+      <h2 class="section-title">Verifiable by design.</h2>
+      <p class="section-subtitle">Model hashes, signatures, and encryption standards are published so you can verify what runs on your device. No hidden backends.</p>
+    </div>
+    <div class="repo-grid">
+      <div class="repo-card">
+        <h4>Verified models</h4>
+        <p>Pluggable GGUF models with published SHA3-256 hashes and signature verification.</p>
+      </div>
+      <div class="repo-card">
+        <h4>Open signatures</h4>
+        <p>Malware, stalkerware, and phishing signatures are auditable and versioned.</p>
+      </div>
+      <div class="repo-card">
+        <h4>Local-first design</h4>
+        <p>All inference, scanning, and storage runs on-device. No cloud backend.</p>
+      </div>
+      <div class="repo-card">
+        <h4>Independent audit trail</h4>
+        <p>Assessed operations require dual sign-off with a full internal audit trail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="section-header">
+    <span class="section-label">EG-07 / FAQ</span>
+    <h2 class="section-title">Questions &amp; answers.</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <h3>Does Embergard send any of my data to the cloud?</h3>
+      <p>No. All scanning, AI inference, and storage happens on your Android device. The only network requests are for signature/model updates and subscription validation via Google Play.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I need an account?</h3>
+      <p>No. Embergard does not require an email, phone number, or account. Subscriptions are handled through Google Play on your device.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What permissions does Embergard need?</h3>
+      <p>VPN permission for traffic inspection, SMS/notification access for phishing detection, and storage for local malware scanning. Every permission is requested just-in-time and explained.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is the AI really offline?</h3>
+      <p>Yes, by default. Models are downloaded as GGUF files and run through the local Rust engine. Cloud mode is opt-in only, using an API key you provide.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Who makes Embergard?</h3>
+      <p>Embergard is a product brand of Aethel Guard, based in Amsterdam, The Netherlands.</p>
+    </div>
+  </div>
+  <div style="margin-top: 2rem;">
+    <a class="btn btn-secondary" href="/support">Visit Support Center</a>
+  </div>
+</section>
+
+<section class="cta-section" id="download">
+  <div class="annotation no-line" data-num="EG-08">Available on Google Play</div>
+  <h2>Take back control of your device.</h2>
+  <p>Install Embergard and see what on-device security feels like. Free tier included. No account required.</p>
+  <div class="cta" style="justify-content: center;">
+    <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.embergard.app" target="_blank" rel="noopener">Get it on Google Play</a>
+    <a class="btn btn-secondary" href="/support">Questions? Contact support</a>
+  </div>
+</section>
+
 <footer>
-  <p>© 2026 Embergard · A Safer Tomorrow</p>
-  <p>
-    <a href="/privacy">Privacy Policy</a> ·
-    <a href="/demo">How it works</a> ·
-    <a href="https://github.com/Aethel-Guard">GitHub</a> ·
-    
-  </p>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="nav-brand" aria-label="Embergard home">
+        <span class="nav-name">Ember<em>gard</em>.</span>
+      </a>
+      <p>On-device Android security that never sends your data anywhere. A product brand of Aethel Guard.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/demo">How it works</a></li>
+        <li><a href="/features">Features</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Use</a></li>
+        <li><a href="/delete-data">Delete my data</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="mailto:legal@aethel-guard.com">legal@aethel-guard.com</a></li>
+        <li><a href="mailto:privacy@aethel-guard.com">privacy@aethel-guard.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Aethel Guard. All rights reserved.</p>
+    <p>Embergard is a product brand of Aethel Guard · Amsterdam, The Netherlands</p>
+  </div>
 </footer>
 
 <script>
