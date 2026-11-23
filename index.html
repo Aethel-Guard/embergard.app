@@ -291,21 +291,21 @@
     .pricing-card li::before { content: '✦'; color: var(--bronze-bright); }
     .pricing-card .note { font-size: 0.8rem; color: var(--slate-light); margin-top: 1rem; }
 
-    .transparency {
+    .trust-section {
       background: var(--ink-2);
       border-top: 1px solid rgba(245, 241, 232, 0.08);
     }
-    .transparency .inner { max-width: 1200px; margin: 0 auto; }
-    .repo-grid {
+    .trust-section .inner { max-width: 1200px; margin: 0 auto; }
+    .trust-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;
     }
-    .repo-card {
+    .trust-card {
       background: var(--ink-3); border: 1px solid rgba(245, 241, 232, 0.08);
       border-radius: 8px; padding: 1.25rem; transition: border-color 0.2s;
     }
-    .repo-card:hover { border-color: var(--bronze-line); }
-    .repo-card h4 { font-family: var(--f-mono); font-size: 0.85rem; color: var(--bone); margin-bottom: 0.4rem; }
-    .repo-card p { font-size: 0.85rem; color: var(--bone-70); }
+    .trust-card:hover { border-color: var(--bronze-line); }
+    .trust-card h4 { font-family: var(--f-mono); font-size: 0.85rem; color: var(--bone); margin-bottom: 0.4rem; }
+    .trust-card p { font-size: 0.85rem; color: var(--bone-70); }
 
     .faq-list { max-width: 800px; }
     .faq-item { border-bottom: 1px solid rgba(245, 241, 232, 0.08); padding: 1.75rem 0; }
@@ -592,29 +592,29 @@
   </div>
 </section>
 
-<section class="transparency">
+<section class="trust-section">
   <div class="inner">
     <div class="section-header">
-      <span class="section-label">EG-06 / Transparency</span>
-      <h2 class="section-title">Verifiable by design.</h2>
-      <p class="section-subtitle">Model hashes, signatures, and encryption standards are published so you can verify what runs on your device. No hidden backends.</p>
+      <span class="section-label">EG-06 / Trust</span>
+      <h2 class="section-title">Built to be verified.</h2>
+      <p class="section-subtitle">We publish model hashes and security standards so independent reviewers can confirm what runs on your device. No hidden backends.</p>
     </div>
-    <div class="repo-grid">
-      <div class="repo-card">
+    <div class="trust-grid">
+      <div class="trust-card">
         <h4>Verified models</h4>
-        <p>Pluggable GGUF models with published SHA3-256 hashes and signature verification.</p>
+        <p>Downloaded models are checked against published SHA3-256 hashes and signatures before activation.</p>
       </div>
-      <div class="repo-card">
-        <h4>Open signatures</h4>
-        <p>Malware, stalkerware, and phishing signatures are auditable and versioned.</p>
+      <div class="trust-card">
+        <h4>Auditable signatures</h4>
+        <p>Malware, stalkerware, and phishing signatures are versioned and delivered over HTTPS with pinning.</p>
       </div>
-      <div class="repo-card">
+      <div class="trust-card">
         <h4>Local-first design</h4>
-        <p>All inference, scanning, and storage runs on-device. No cloud backend.</p>
+        <p>All inference, scanning, and storage runs on-device. There is no cloud backend for your data.</p>
       </div>
-      <div class="repo-card">
-        <h4>Independent audit trail</h4>
-        <p>Assessed operations require dual sign-off with a full internal audit trail.</p>
+      <div class="trust-card">
+        <h4>Dual sign-off governance</h4>
+        <p>Assessed operations require two approvals and a full internal audit trail.</p>
       </div>
     </div>
   </div>
