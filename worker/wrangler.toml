@@ -1,0 +1,12 @@
+name = "embergard-integrity"
+main = "src/index.ts"
+compatibility_date = "2026-11-25"
+
+# Route: embergard.app/api/integrity
+# Deploy with: npx wrangler deploy
+# Requires GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret:
+#   npx wrangler secret put GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
+
+[vars]
+GOOGLE_CLOUD_PROJECT_NUMBER = "378810733196"
+PACKAGE_NAME = "com.embergard.app"
