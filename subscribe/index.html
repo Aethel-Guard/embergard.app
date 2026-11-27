@@ -128,19 +128,31 @@
       msg.classList.remove('error');
       msg.textContent = 'Redirecting to secure checkout…';
       buttons.forEach(b => b.disabled = true);
+      const friendly = 'Checkout is temporarily unavailable — please try again in a few minutes. If it persists, contact support@aethel-guard.com.';
       try {
         const res = await fetch('/api/stripe/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ plan })
         });
-        const data = await res.json();
+        // The API may be unreachable for a moment (deploy/route not yet live):
+        // the static host then returns an HTML error page, not JSON. Parse
+        // defensively and always show a human message either way.
+        let data = null;
+        const text = await res.text();
+        try { data = text ? JSON.parse(text) : null; } catch { data = null; }
         if (!res.ok) {
-          throw new Error(data?.error?.message || 'Checkout failed — please try again.');
+          throw new Error(data?.error?.message || friendly);
+        }
+        if (!data?.url) {
+          throw new Error(friendly);
         }
         window.location.href = data.url;
       } catch (err) {
-        msg.textContent = err instanceof Error ? err.message : String(err);
+        // Network failure or JSON parse failure also land here.
+        msg.textContent = err instanceof Error && err.message !== 'Unexpected token' && !/Unexpected token/.test(err.message || '')
+          ? err.message
+          : friendly;
         msg.classList.add('error');
         buttons.forEach(b => b.disabled = false);
       }
