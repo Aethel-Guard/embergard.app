@@ -16,6 +16,17 @@
  *     Retrieve a Checkout Session's payment status for the success page.
  *     → { id, status, payment_status, amount_total, currency, mode }
  *
+ *   POST https://embergard.app/api/stripe/webhook
+ *     Stripe webhook receiver (subscription lifecycle: checkout.session.completed,
+ *     customer.subscription.updated/deleted). Verifies the Stripe-Signature
+ *     header (HMAC-SHA256 over "t=.v1=", constant-time) using the
+ *     STRIPE_WEBHOOK_SECRET secret. Acknowledges events; license issuance
+ *     attaches here once the Ed25519 private key is provisioned.
+ *
+ * Backend-only processing invariant: NO Stripe API key, price, or secret ever
+ * ships in client code. The browser sends only a plan name; every price,
+ * session, verification, and lifecycle decision is made in this worker.
+ *
  * Error shape (Stripe-style): { error: { type, message } }
  *
  * Secrets & vars — see wrangler.toml and README.md.
@@ -32,6 +43,7 @@ export interface Env {
   SITE_URL?: string;
   STRIPE_PRICE_MONTHLY?: string;
   STRIPE_PRICE_YEARLY?: string;
+  STRIPE_WEBHOOK_SECRET?: string;
 }
 
 interface IntegrityRequest {
@@ -124,6 +136,8 @@ export default {
           return handleStripeCheckout(request, env);
         case "/api/stripe/session":
           return handleStripeSession(request, url, env);
+        case "/api/stripe/webhook":
+          return handleStripeWebhook(request, env);
         default:
           return jsonResponse(
             { error: { type: "invalid_request_error", message: "Not found" } },
@@ -433,6 +447,135 @@ async function handleStripeSession(request: Request, url: URL, env: Env): Promis
     },
     200
   );
+}
+
+// ── Stripe Webhook (backend-only lifecycle processing) ───────────────
+
+/** Stripe's default replay tolerance is 5 minutes. */
+const WEBHOOK_TOLERANCE_SECONDS = 300;
+
+async function handleStripeWebhook(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "Method not allowed" } },
+      405
+    );
+  }
+  const secret = env.STRIPE_WEBHOOK_SECRET;
+  if (!secret) {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "STRIPE_WEBHOOK_SECRET is not configured" } },
+      500
+    );
+  }
+
+  const rawBody = await request.text();
+  const sigHeader = request.headers.get("Stripe-Signature") ?? "";
+  const parts = new Map<string, string>();
+  for (const piece of sigHeader.split(",")) {
+    const eq = piece.indexOf("=");
+    if (eq > 0) parts.set(piece.slice(0, eq).trim(), piece.slice(eq + 1).trim());
+  }
+  const timestamp = parts.get("t") ?? "";
+  const signature = parts.get("v1") ?? "";
+
+  if (!timestamp || !signature || !/^\d+$/.test(timestamp)) {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "Missing or malformed Stripe-Signature" } },
+      400
+    );
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const age = now - Number(timestamp);
+  if (Math.abs(age) > WEBHOOK_TOLERANCE_SECONDS) {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "Stripe-Signature timestamp outside tolerance" } },
+      400
+    );
+  }
+
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const mac = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(`${timestamp}.${rawBody}`)
+  );
+  const expected = new Uint8Array(mac);
+
+  // Hex-decode the provided v1 signatures and constant-time compare;
+  // multiple v1 entries are allowed by Stripe (key rotation).
+  const provided = sigHeader
+    .split(",")
+    .filter((p) => p.trim().startsWith("v1="))
+    .map((p) => p.trim().slice(3));
+
+  let verified = false;
+  for (const hex of provided) {
+    if (!/^[0-9a-fA-F]{64}$/.test(hex)) continue;
+    const candidate = hexToBytes(hex);
+    if (constantTimeEquals(candidate, expected)) {
+      verified = true;
+      break;
+    }
+  }
+  if (!verified) {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "Webhook signature verification failed" } },
+      400
+    );
+  }
+
+  // Signature verified — inspect the event type only.
+  let event: { type?: string; id?: string } = {};
+  try {
+    event = JSON.parse(rawBody) as { type?: string; id?: string };
+  } catch {
+    return jsonResponse(
+      { error: { type: "invalid_request_error", message: "Invalid JSON payload" } },
+      400
+    );
+  }
+
+  // Backward lifecycle processing happens here — license issuance for
+  // checkout.session.completed attaches in this switch once the Ed25519
+  // private key is provisioned as a secret. No PII is logged or stored.
+  switch (event.type) {
+    case "checkout.session.completed":
+      // TODO(license): mint + deliver Ed25519 license key for the session.
+      break;
+    case "customer.subscription.updated":
+    case "customer.subscription.deleted":
+      // TODO(tier-sync): reconcile subscription status for the device/customer.
+      break;
+    default:
+      // Unhandled event types are acknowledged so Stripe stops retrying.
+      break;
+  }
+
+  return jsonResponse({ received: true, type: event.type ?? null }, 200);
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  const out = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+  }
+  return out;
+}
+
+function constantTimeEquals(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
 }
 
 function jsonResponse(body: unknown, status: number): Response {

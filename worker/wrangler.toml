@@ -12,6 +12,7 @@ compatibility_date = "2026-11-25"
 # Secrets (never in vars/git):
 #   npx wrangler secret put GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 #   npx wrangler secret put STRIPE_SECRET_KEY       # sk_test_... or sk_live_...
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET   # whsec_... from the Stripe dashboard webhook endpoint
 #
 # Optional vars: when stable Price IDs exist, fill them in and the worker stops
 # falling back to inline price_data.

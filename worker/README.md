@@ -13,6 +13,7 @@ Cloudflare Worker serving three endpoints for Embergard:
 | `POST /api/integrity` | POST | Verify Play Integrity token → verdict booleans |
 | `POST /api/stripe/checkout` | POST | Create a Checkout Session → `{ url }` |
 | `GET /api/stripe/session?id=cs_…` | GET | Session payment status (non-PII fields only) |
+| `POST /api/stripe/webhook` | POST | Stripe lifecycle events, signature-verified |
 
 POST `/api/stripe/checkout` body:
 
@@ -65,6 +66,11 @@ Price ID is preferred in live mode so dashboard reporting stays tidy.
    ```bash
    npx wrangler deploy
    ```
+
+7. Webhook endpoint (Stripe dashboard → Developers → Webhooks):
+   - URL: `https://embergard.app/api/stripe/webhook`
+   - Events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`
+   - Copy the generated `whsec_…` signing secret: `npx wrangler secret put STRIPE_WEBHOOK_SECRET`
 
 7. Cloudflare route: `embergard.app/api/*` → this worker (dashboard → Workers
    Routes). The static site (`/`, `/subscribe/`, …) is served separately from
