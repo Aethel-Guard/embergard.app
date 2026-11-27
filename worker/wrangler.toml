@@ -21,5 +21,10 @@ compatibility_date = "2026-11-25"
 GOOGLE_CLOUD_PROJECT_NUMBER = "378810733196"
 PACKAGE_NAME = "com.embergard.app"
 SITE_URL = "https://embergard.app"
+# EXPECTED_CERT_SHA256 = "<SHA-256 of the Play App Signing certificate>"
+#   Get it from: Play Console → Release → Setup → App signing →
+#   "App signing key certificate" → SHA-256 fingerprint (strip colons, or
+#   keep base64 — the worker tolerates both hex-without-colons and base64).
+#   When set, /api/integrity rejects verdicts signed by any other key.
 # STRIPE_PRICE_MONTHLY = "price_xxx"   # uncomment when created
 # STRIPE_PRICE_YEARLY  = "price_yyy"   # uncomment when created

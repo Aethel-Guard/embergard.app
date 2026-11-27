@@ -38,6 +38,10 @@ export interface Env {
   GOOGLE_CLOUD_PROJECT_NUMBER: string;
   PACKAGE_NAME: string;
   GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: string;
+  /** Expected SHA-256 hashes of the app signing certificate(s) (Play App Signing).
+   *  Comma-separated. When set, verdicts whose certificateSha256Digest does not
+   *  include one of these are rejected regardless of other verdicts. */
+  EXPECTED_CERT_SHA256?: string;
   // Stripe
   STRIPE_SECRET_KEY?: string;
   SITE_URL?: string;
@@ -184,7 +188,26 @@ async function handleIntegrity(request: Request, env: Env): Promise<Response> {
 
   const verdict = await decodeIntegrityToken(token, env);
   const result = evaluateVerdict(verdict, env.PACKAGE_NAME);
-  return jsonResponse(result, 200);
+
+  // developer.android.com/google/play/integrity/verdicts#package-name:
+  // a spoofing app can claim our package name, so when the expected signer
+  // certificate hash(es) are configured, require a match on the digest the
+  // verdict carries for the app that generated the token.
+  if (env.EXPECTED_CERT_SHA256) {
+    const digest = verdict.appIntegrity?.certificateSha256Digest ?? [];
+    const expected = env.EXPECTED_CERT_SHA256.split(",")
+      .map((s) => s.trim().replace(/[-_]/g, (m) => (m === "-" ? "+" : "/")))
+      .filter(Boolean);
+    const match = digest.some((d) => expected.includes(d));
+    if (!match) {
+      return jsonResponse(
+        { ...result, healthy: false, certMatch: false },
+        403
+      );
+    }
+  }
+
+  return jsonResponse({ ...result, certMatch: true }, 200);
 }
 
 function evaluateVerdict(verdict: IntegrityVerdict, expectedPackageName: string): {
