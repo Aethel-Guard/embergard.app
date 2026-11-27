@@ -2,11 +2,23 @@ name = "embergard-integrity"
 main = "src/index.ts"
 compatibility_date = "2026-11-25"
 
-# Route: embergard.app/api/integrity
+# Routes:
+#   embergard.app/api/integrity        — Play Integrity server verification
+#   embergard.app/api/stripe/checkout  — create Stripe Checkout Session
+#   embergard.app/api/stripe/session   — poll Checkout Session status
+#
 # Deploy with: npx wrangler deploy
-# Requires GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret:
+#
+# Secrets (never in vars/git):
 #   npx wrangler secret put GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
+#   npx wrangler secret put STRIPE_SECRET_KEY       # sk_test_... or sk_live_...
+#
+# Optional vars: when stable Price IDs exist, fill them in and the worker stops
+# falling back to inline price_data.
 
 [vars]
 GOOGLE_CLOUD_PROJECT_NUMBER = "378810733196"
 PACKAGE_NAME = "com.embergard.app"
+SITE_URL = "https://embergard.app"
+# STRIPE_PRICE_MONTHLY = "price_xxx"   # uncomment when created
+# STRIPE_PRICE_YEARLY  = "price_yyy"   # uncomment when created

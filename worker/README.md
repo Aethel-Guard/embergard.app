@@ -1,58 +1,80 @@
-# embergard.app Play Integrity Worker
+# embergard.app Worker (Cloudflare)
 
-Cloudflare Worker that verifies Google Play Integrity tokens server-side for the Embergard Android app.
+Cloudflare Worker serving three endpoints for Embergard:
 
-## Endpoint
+1. **Play Integrity server-side verification** for the Android app.
+2. **Stripe Checkout session creation** for the web `Personal` subscription.
+3. **Checkout session status** for the `/subscribe/success` confirmation page.
 
-```
-POST https://embergard.app/api/integrity
-```
+## Endpoints
 
-## Request body
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `POST /api/integrity` | POST | Verify Play Integrity token → verdict booleans |
+| `POST /api/stripe/checkout` | POST | Create a Checkout Session → `{ url }` |
+| `GET /api/stripe/session?id=cs_…` | GET | Session payment status (non-PII fields only) |
 
-```json
-{
-  "token": "<base64 Play Integrity token>",
-  "requestHash": "<optional SHA-256 of the in-app request>"
-}
-```
-
-## Response
+POST `/api/stripe/checkout` body:
 
 ```json
-{
-  "healthy": true,
-  "playRecognized": true,
-  "meetsDeviceIntegrity": true,
-  "meetsBasicIntegrity": true,
-  "licensed": true
-}
+{ "plan": "monthly" | "yearly" }
 ```
+
+Error responses use the Stripe-style shape:
+
+```json
+{ "error": { "type": "invalid_request_error", "message": "…" } }
+```
+
+### Pricing
+
+- Monthly: **€4.99 / month** (`STRIPE_PRICE_MONTHLY` or inline `price_data` fallback)
+- Yearly: **€59.00 / year** (`STRIPE_PRICE_YEARLY` or inline `price_data` fallback)
+
+When the optional Price ID vars are unset, the worker creates the subscription
+price inline (`price_data`) per request — fine for first runs, but a stable
+Price ID is preferred in live mode so dashboard reporting stays tidy.
 
 ## Setup
 
-1. Install dependencies:
+1. Install dependencies (requires network access to npmjs):
    ```bash
    npm install
+   npx tsc --noEmit   # typecheck
    ```
 
-2. Create a Google Cloud service account with the **Play Integrity API** permission and download the JSON key.
+2. Google Play service account with the **Play Integrity API** permission and the JSON key.
 
-3. Add the secret to Cloudflare:
+3. Secrets (never in vars/git):
    ```bash
    npx wrangler secret put GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
-   # paste the JSON key contents
+   npx wrangler secret put STRIPE_SECRET_KEY        # sk_test_... for testing, sk_live_... for production
    ```
 
-4. Deploy:
+4. Optional vars in `wrangler.toml` once Price objects exist:
+   ```toml
+   STRIPE_PRICE_MONTHLY = "price_…"
+   STRIPE_PRICE_YEARLY  = "price_…"
+   ```
+
+5. Create the Price objects once (Stripe Dashboard → Products, pricing €4.99/mo
+   and €59.00/yr, currency EUR, recurring) or via the REST API
+   (`POST /v1/prices`), then put their IDs into `wrangler.toml`.
+
+6. Deploy:
    ```bash
-   npm run deploy
+   npx wrangler deploy
    ```
 
-5. Add a Cloudflare route mapping `embergard.app/api/integrity*` to this worker.
+7. Cloudflare route: `embergard.app/api/*` → this worker (dashboard → Workers
+   Routes). The static site (`/`, `/subscribe/`, …) is served separately from
+   the repo root; only `/api/*` hits the worker.
 
 ## Notes
 
-- PII is never logged.
-- The worker only returns verdict booleans.
-- Requires Wrangler login (`npx wrangler login`).
+- Success page `/subscribe/success/?session_id=cs_…` polls `GET /api/stripe/session`
+  to confirm `payment_status`, exposing non-PII fields only.
+- No PII is logged anywhere in this worker. Session responses strip customer
+  details (email, name, address are not included).
+- Web-purchase → license-key issuance is planned: the checkout `session_id`
+  is kept on the success page as proof of purchase in the interim.

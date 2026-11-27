@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription confirmed — Embergard</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0A0D14">
+  <link rel="canonical" href="https://embergard.app/subscribe/success/">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink: #0A0D14; --ink-2: #0F1320;
+      --bronze-bright: #D4AF7A; --bronze-line: rgba(184, 149, 106, 0.25);
+      --bone: #F5F1E8; --bone-70: rgba(245, 241, 232, 0.7); --bone-50: rgba(245, 241, 232, 0.5);
+      --green: #3FB950;
+      --f-display: 'Fraunces', serif; --f-body: 'DM Sans', sans-serif; --f-mono: 'JetBrains Mono', monospace;
+    }
+    body { font-family: var(--f-body); background: var(--ink); color: var(--bone-70); min-height: 100vh; display: flex; flex-direction: column; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; border-bottom: 1px solid var(--bronze-line); }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand img { width: 30px; height: 30px; }
+    .brand span { font-family: var(--f-display); font-size: 19px; color: var(--bone); font-weight: 600; }
+    .brand em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
+    main { flex: 1; max-width: 640px; margin: 0 auto; padding: 64px 24px; width: 100%; text-align: center; }
+    .icon { font-size: 48px; margin-bottom: 18px; }
+    h1 { font-family: var(--f-display); font-size: clamp(28px, 5vw, 38px); color: var(--bone); font-weight: 600; margin-bottom: 12px; }
+    .status { font-family: var(--f-mono); font-size: 14px; margin: 12px 0 28px; color: var(--bone-50); }
+    .status strong { color: var(--green); }
+    .box { background: var(--ink-2); border: 1px solid var(--bronze-line); border-radius: 12px; padding: 22px; text-align: left; font-size: 14px; line-height: 1.7; }
+    .box code { font-family: var(--f-mono); font-size: 12px; color: var(--bronze-bright); word-break: break-all; }
+    .actions { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; border: 1px solid var(--bronze-line); color: var(--bronze-bright); text-decoration: none; font-family: var(--f-mono); font-weight: 600; font-size: 13px; letter-spacing: 0.05em; }
+    .btn:hover { background: rgba(184, 149, 106, 0.15); border-color: var(--bronze-bright); }
+    footer { border-top: 1px solid var(--bronze-line); padding: 18px 28px; font-size: 13px; color: var(--bone-50); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/">
+      <img src="/assets/img/logo-mark.svg" alt="Embergard logo">
+      <span>Ember<em>gard</em></span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="icon">✅</div>
+    <h1 id="title">Checking your checkout…</h1>
+    <p class="status" id="status">Session: <code id="sid">…</code></p>
+    <div class="box" id="detail">
+      Verifying with Stripe. This page will update automatically.
+    </div>
+    <div class="actions" id="actions" hidden>
+      <a class="btn" href="/">← Back to Embergard</a>
+      <a class="btn" href="mailto:support@aethel-guard.com">Contact support</a>
+    </div>
+  </main>
+
+  <footer>© 2026 Embergard · Payments processed by Stripe</footer>
+
+  <script>
+    const sid = new URLSearchParams(window.location.search).get('session_id') || '';
+    const titleEl = document.getElementById('title');
+    const statusEl = document.getElementById('status');
+    const sidEl = document.getElementById('sid');
+    const detailEl = document.getElementById('detail');
+    const actionsEl = document.getElementById('actions');
+    sidEl.textContent = sid ? (sid.slice(0, 24) + '…') : '(none in URL)';
+
+    function fmtAmount(amount, currency) {
+      if (typeof amount !== 'number' || !currency) return '';
+      try {
+        return new Intl.NumberFormat('en-IE', { style: 'currency', currency: currency.toUpperCase() }).format(amount / 100);
+      } catch { return amount / 100 + ' ' + currency.toUpperCase(); }
+    }
+
+    async function verify() {
+      if (!sid) {
+        titleEl.textContent = 'Missing checkout session';
+        detailEl.textContent = 'This page expects a ?session_id= parameter from Stripe. If you completed payment in another tab, keep that Stripe receipt as proof.';
+        return;
+      }
+      try {
+        const res = await fetch('/api/stripe/session?id=' + encodeURIComponent(sid));
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error?.message || 'Verification failed');
+
+        const paid = data.payment_status === 'paid' || data.status === 'complete';
+        titleEl.textContent = paid ? 'Payment confirmed' : 'Payment pending';
+        statusEl.innerHTML = 'Session: <code>' + data.id + '</code> · status: <strong>' +
+          (data.payment_status ?? data.status ?? '?') + '</strong>';
+
+        if (paid) {
+          detailEl.innerHTML =
+            'Thanks for subscribing to Embergard Personal' +
+            (typeof data.amount_total === 'number' ? ' — ' + fmtAmount(data.amount_total, data.currency) : '') +
+            '. <br><br>Keep this session ID as proof of purchase: <code>' + data.id + '</code>.' +
+            ' In-app activation ties into Google Play Billing and license keys; web-purchase license delivery is being finalised (session ID is your reference). Questions: support@aethel-guard.com';
+          actionsEl.hidden = false;
+        } else {
+          detailEl.textContent = 'Stripe reports the session as not yet paid. If you just completed payment, refresh in a moment.';
+          actionsEl.hidden = false;
+        }
+      } catch (err) {
+        titleEl.textContent = 'Could not verify right now';
+        detailEl.textContent = (err instanceof Error ? err.message : String(err)) + ' — you can refresh this page later. Keep the Stripe receipt as proof.';
+      }
+    }
+
+    verify();
+  </script>
+</body>
+</html>

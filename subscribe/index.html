@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embergard Personal — Subscribe</title>
+  <meta name="description" content="Embergard Personal: DPI firewall, anti-tracking, MFA-gated security, private AI. €4.99/month or €59.00/year.">
+  <meta name="theme-color" content="#0A0D14">
+  <link rel="canonical" href="https://embergard.app/subscribe/">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo-mark.svg">
+  <meta property="og:title" content="Embergard Personal — Subscribe">
+  <meta property="og:url" content="https://embergard.app/subscribe/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink: #0A0D14; --ink-2: #0F1320; --ink-3: #161B2E; --ink-4: #1C2238;
+      --bronze: #B8956A; --bronze-bright: #D4AF7A;
+      --bronze-glow: rgba(184, 149, 106, 0.15); --bronze-line: rgba(184, 149, 106, 0.25);
+      --bone: #F5F1E8; --bone-70: rgba(245, 241, 232, 0.7); --bone-50: rgba(245, 241, 232, 0.5);
+      --slate-light: #6B7588;
+      --f-display: 'Fraunces', serif; --f-body: 'DM Sans', sans-serif; --f-mono: 'JetBrains Mono', monospace;
+    }
+    body { font-family: var(--f-body); background: var(--ink); color: var(--bone-70); min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; border-bottom: 1px solid var(--bronze-line); }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand img { width: 30px; height: 30px; }
+    .brand span { font-family: var(--f-display); font-size: 19px; color: var(--bone); letter-spacing: 0.02em; font-weight: 600; }
+    .brand em { font-style: italic; color: var(--bronze-bright); font-weight: 400; }
+    nav a.back { color: var(--bone-50); text-decoration: none; font-size: 14px; }
+    nav a.back:hover { color: var(--bronze-bright); }
+    main { flex: 1; max-width: 760px; margin: 0 auto; padding: 56px 24px 72px; width: 100%; }
+    .eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); margin-bottom: 14px; }
+    h1 { font-family: var(--f-display); font-size: clamp(30px, 5vw, 42px); font-weight: 600; color: var(--bone); line-height: 1.15; margin-bottom: 14px; }
+    .lede { font-size: 17px; max-width: 620px; margin-bottom: 40px; }
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
+    .plan { background: var(--ink-2); border: 1px solid var(--bronze-line); border-radius: 14px; padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; }
+    .plan.recommended { border-color: var(--bronze-bright); box-shadow: 0 0 32px var(--bronze-glow); position: relative; }
+    .badge { position: absolute; top: -11px; left: 24px; background: var(--bronze-bright); color: var(--ink); font-family: var(--f-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; }
+    .plan h2 { font-family: var(--f-display); font-size: 20px; color: var(--bone); font-weight: 600; }
+    .price { display: flex; align-items: baseline; gap: 6px; }
+    .price .amount { font-family: var(--f-display); font-size: 40px; font-weight: 600; color: var(--bone); }
+    .price .per { color: var(--bone-50); font-size: 14px; }
+    .plan p.desc { font-size: 14px; color: var(--bone-50); min-height: 40px; }
+    .cta { margin-top: auto; display: block; text-align: center; padding: 13px 16px; border-radius: 8px; border: 1px solid var(--bronze-line); background: transparent; color: var(--bronze-bright); font-family: var(--f-mono); font-size: 14px; font-weight: 600; letter-spacing: 0.06em; cursor: pointer; transition: background .15s, border-color .15s; width: 100%; }
+    .cta:hover { background: var(--bronze-glow); border-color: var(--bronze-bright); }
+    .cta:disabled { opacity: .55; cursor: wait; }
+    .msg { font-family: var(--f-mono); font-size: 13px; margin-top: 20px; min-height: 20px; }
+    .msg.error { color: #E5484D; }
+    .fineprint { margin-top: 36px; font-size: 13px; color: var(--bone-50); line-height: 1.7; }
+    .fineprint a { color: var(--bronze-bright); }
+    ul.includes { list-style: none; font-size: 14px; display: grid; gap: 6px; }
+    ul.includes li::before { content: '✓ '; color: var(--bronze-bright); }
+    footer { border-top: 1px solid var(--bronze-line); padding: 18px 28px; font-size: 13px; color: var(--bone-50); }
+    footer a { color: var(--bone-50); margin-right: 18px; text-decoration: none; }
+    footer a:hover { color: var(--bronze-bright); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/">
+      <img src="/assets/img/logo-mark.svg" alt="Embergard logo">
+      <span>Ember<em>gard</em></span>
+    </a>
+    <a class="back" href="/">← Back to home</a>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Embergard Personal</p>
+    <h1>Full protection, on your terms</h1>
+    <p class="lede">Everything in Embergard is processed on your device — no cloud, no tracking, no data sales. Personal unlocks the complete firewall and security stack.</p>
+
+    <div class="plans">
+      <div class="plan">
+        <h2>Monthly</h2>
+        <div class="price"><span class="amount">€4.99</span><span class="per">/ month</span></div>
+        <p class="desc">Cancel anytime. Billed monthly via Stripe.</p>
+        <button class="cta" id="buy-monthly" data-plan="monthly">Subscribe — Monthly</button>
+      </div>
+      <div class="plan recommended">
+        <span class="badge">Save 15%</span>
+        <h2>Yearly</h2>
+        <div class="price"><span class="amount">€59.00</span><span class="per">/ year</span></div>
+        <p class="desc">Two months free vs. monthly. Billed annually via Stripe.</p>
+        <button class="cta" id="buy-yearly" data-plan="yearly">Subscribe — Yearly</button>
+      </div>
+    </div>
+
+    <p class="msg" id="msg" role="status"></p>
+
+    <div class="fineprint">
+      <strong style="color: var(--bone);">Included with Personal:</strong>
+      <ul class="includes" style="margin-top: 8px;">
+        <li>DPI firewall with PII exfiltration protection</li>
+        <li>Anti-tracking VPN, certificate pinning, anti-extraction</li>
+        <li>MFA-gated security actions, Play Integrity verification</li>
+        <li>Security-focused AI chat on-device</li>
+        <li>Certificate pinning for update channels</li>
+      </ul>
+      <p style="margin-top: 18px;">
+        Payments are processed by Stripe over HTTPS; card data never reaches Embergard servers.
+        No personal data from your device is involved in checkout.
+        See our <a href="/privacy/">privacy policy</a> and <a href="/terms/">terms of use</a>.
+        By subscribing you agree to auto-renewal; cancel in your Stripe checkout email or contact
+        <a href="mailto:support@aethel-guard.com">support@aethel-guard.com</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Home</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/terms/">Terms</a>
+    <a href="/support/">Support</a>
+    <span style="float:right; font-family: var(--f-mono); font-size: 11px;">© 2026 Embergard</span>
+  </footer>
+
+  <script>
+    const msg = document.getElementById('msg');
+    const buttons = [document.getElementById('buy-monthly'), document.getElementById('buy-yearly')];
+
+    async function checkout(plan) {
+      msg.classList.remove('error');
+      msg.textContent = 'Redirecting to secure checkout…';
+      buttons.forEach(b => b.disabled = true);
+      try {
+        const res = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data?.error?.message || 'Checkout failed — please try again.');
+        }
+        window.location.href = data.url;
+      } catch (err) {
+        msg.textContent = err instanceof Error ? err.message : String(err);
+        msg.classList.add('error');
+        buttons.forEach(b => b.disabled = false);
+      }
+    }
+
+    buttons.forEach(b => b.addEventListener('click', () => checkout(b.dataset.plan)));
+  </script>
+</body>
+</html>
